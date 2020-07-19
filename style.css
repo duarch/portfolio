@@ -2,21 +2,77 @@ body {
     background: rgb(18, 142, 158);
     font: normal 15pt arial;
 }
-header {
+
+/* story11 */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.nav-ul li {
+    float: right;
+}
+
+.nav-ul a  {
+    display: block;
     color: white;
     text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
 }
+
+.proj li  {
+    color: black;
+    text-decoration: none;
+list-style-type: none;
+
+}
+
+header {
+    color: white;
+    position: fixed; /* story11 */
+    top: 80px; /* story11 */
+    left: 0; /* story11 */
+    width: 100%; /* story11 */
+
+    text-align: center;
+}
+
+/* story10 200~The height of the welcome section should be equal to the height of the viewport. */
+#welcome-section {
+    max-width: 100%;
+    height: auto;
+}
+
 section {
     background: white;
     border-radius: 10px;
     padding: 15px;
     width: 500px;
     margin: auto;
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.363);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.363);
+    top: 50px;
 }
 
 footer {
     color: white;
     text-align: center;
     font-style: italic;
+}
+
+/* story9  at list one media query */
+@media (max-width: 100px) {
+    p {
+        font-size: 10px;
+    }
 }
