@@ -4,7 +4,9 @@ body {
     padding-top: 70px;
 }
 
+
 /* story11 */
+
 #navbar {
     position: fixed;
     top: 0;
@@ -40,15 +42,20 @@ body {
 
 header {
     color: white;
-    position: fixed; /* story11 */
-    top: 80px; /* story11 */
-    left: 0; /* story11 */
-    width: 100%; /* story11 */
-
+    position: fixed;
+    /* story11 */
+    top: 80px;
+    /* story11 */
+    left: 0;
+    /* story11 */
+    width: 100%;
+    /* story11 */
     text-align: center;
 }
 
+
 /* story10 200~The height of the welcome section should be equal to the height of the viewport. */
+
 #welcome-section {
     max-width: 100%;
     height: auto;
@@ -64,13 +71,46 @@ section {
     top: 50px;
 }
 
+div.card {
+    text-align: center;
+    padding: 10px 20px;
+}
+
+.sample-sec {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.item {
+    width: 36%;
+}
+
 footer {
     color: white;
     text-align: center;
     font-style: italic;
 }
 
+@media all and (max-width: 500px) {
+    .sample-sec {
+        /* On small screens, we are no longer using row direction but column */
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+    div.sample {
+        width: 80%;
+        margin: 0 auto;
+        margin-bottom: 25px;
+    }
+}
+
+
 /* story9  at list one media query */
+
 @media (max-width: 100px) {
     p {
         font-size: 10px;
