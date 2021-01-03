@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,100;1,500&display=swap');
+html,
 body {
-    background: rgb(18, 142, 158);
-    font: normal 15pt arial;
-    padding-top: 70px;
+    background: url(./assets/aurora.jpg) bottom no-repeat transparent;
+    background-size: cover;
+    height: fit-content;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 
@@ -40,53 +45,99 @@ body {
     list-style-type: none;
 }
 
-header {
-    color: white;
-    position: fixed;
-    /* story11 */
-    top: 80px;
-    /* story11 */
-    left: 0;
-    /* story11 */
-    width: 100%;
-    /* story11 */
-    text-align: center;
-}
-
 
 /* story10 200~The height of the welcome section should be equal to the height of the viewport. */
 
 #welcome-section {
-    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    margin-bottom: 2rem;
+    background-color: rgba(255, 255, 255, .3);
+}
+
+#projects {
+    max-width: 80%;
     height: auto;
 }
 
 section {
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    width: fit-content;
-    margin: auto;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.363);
-    top: 50px;
+    background-color: rgba(255, 255, 255, .3);
+    /* background-blend-mode: lighten; */
+    border-radius: 6px;
+    padding-top: 2rem;
+    /* padding: 2rem; */
+    width: auto;
+    margin: 0 auto;
+    /* box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.363); */
+    top: 1em;
+    margin-bottom: 2rem;
 }
 
-div.card {
+div h1 {
+    color: whitesmoke;
     text-align: center;
-    padding: 10px 20px;
+    /* padding-bottom: 3rem; */
+}
+
+div.project-tile {
+    text-align: center;
+    padding: 10px 10px;
+}
+
+.item {
+    border: thick grey;
 }
 
 .sample-sec {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    padding: 0;
-    margin: 0;
+    align-content: center;
+    /* padding: 0; */
+    /* margin: 0; */
     list-style: none;
 }
 
-.item {
+.gitprofile {
+    max-width: 80%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-content: center;
+    align-items: baseline;
+    /* padding: 0; */
+    /* margin: 0; */
+    list-style: none;
+}
+
+.project-title {
+    border-radius: 6px;
     width: 36%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 2rem;
+}
+
+.project-title img {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.profile-card {
+    border-radius: 6px;
+    width: 36%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 2rem;
+}
+
+.profile-card img {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
 }
 
 footer {
@@ -95,13 +146,21 @@ footer {
     font-style: italic;
 }
 
+.background {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
 @media all and (max-width: 500px) {
     .sample-sec {
         /* On small screens, we are no longer using row direction but column */
         justify-content: flex-start;
         flex-direction: column;
     }
-    div.sample {
+    div.project-title {
         width: 80%;
         margin: 0 auto;
         margin-bottom: 25px;
