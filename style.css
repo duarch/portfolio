@@ -80,9 +80,9 @@ section {
 div h1 {
     color: whitesmoke;
     text-align: center;
-    font-size: 10em;
+    font-size: 3rem;
     text-shadow: 1px 1px 10px whitesmoke;
-    /* padding-bottom: 3rem; */
+    padding-bottom: 3rem;
 }
 
 div.project-tile {
