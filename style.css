@@ -2,7 +2,7 @@
 html,
 body {
     background: url(./assets/aurora.jpg) bottom no-repeat transparent;
-    background-color: rgb(110, 250, 236);
+    background-color: rgb(47 186 210);
     background-size: cover;
     height: 100vh;
     margin: 0;
@@ -163,7 +163,7 @@ div h1 {
     }
     20.1%,
     100% {
-        border-color: rgb(110, 250, 236);
+        border-color: rgb(47 186 210);
     }
 }
 
@@ -186,7 +186,7 @@ div.project-tile {
     /* padding: 0; */
     /* margin: 0; */
     list-style: none;
-    background-color: rgb(110, 250, 236);
+    background-color: rgb(47 186 210);
 }
 
 .project-title {
