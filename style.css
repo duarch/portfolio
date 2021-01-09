@@ -3,7 +3,7 @@ html,
 body {
     background: url(./assets/aurora.jpg) bottom no-repeat transparent;
     background-size: cover;
-    height: fit-content;
+    height: 100vh;
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
@@ -24,7 +24,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #001;
 }
 
 .nav-ul li {
@@ -56,7 +56,7 @@ body {
     width: 100%;
     height: 100vh;
     margin-bottom: 2rem;
-    background-color: rgba(255, 255, 255, .3);
+    background-color: rgba(255, 255, 255, .1);
 }
 
 #projects {
@@ -65,7 +65,7 @@ body {
 }
 
 section {
-    background-color: rgba(255, 255, 255, .3);
+    background-color: rgba(255, 255, 255, .1);
     /* background-blend-mode: lighten; */
     border-radius: 6px;
     padding-top: 2rem;
@@ -80,6 +80,8 @@ section {
 div h1 {
     color: whitesmoke;
     text-align: center;
+    font-size: 10em;
+    text-shadow: 1px 1px 10px whitesmoke;
     /* padding-bottom: 3rem; */
 }
 
@@ -119,7 +121,8 @@ div.project-tile {
     width: 36%;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-bottom: 2rem;
+    margin-bottom: 2em;
+    font-size: 2em;
 }
 
 .project-title img {
@@ -144,6 +147,10 @@ footer {
     color: white;
     text-align: center;
     font-style: italic;
+    list-style-type: none;
+    margin: 0;
+    padding: 1em;
+    background-color: #001;
 }
 
 .background {
