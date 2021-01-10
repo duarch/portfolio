@@ -1,3 +1,3 @@
 # My portfolio
 
-## visit [duar.ch](duar.ch)
+## visit [duar.ch](https://duar.ch/)
