@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,100;1,500&display=swap");
 html,
 body {
-    background: url(./assets/aurora.jpg) bottom no-repeat transparent;
+    background: url(./assets/aurora.webp) bottom no-repeat transparent;
     background-color: rgb(47 186 210);
     background-size: cover;
     height: 100vh;
