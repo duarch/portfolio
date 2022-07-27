@@ -1,7 +1,7 @@
 .cards {
     background-color: aliceblue;
-    height: 400px;
-    width: 400px;
+    height: 20rem;
+    width: 40rem;
     position: relative;
     border: 2px solid salmon;
     margin: 0 auto;
@@ -21,7 +21,7 @@
     /
 }
 
-div:hover {
+div.cards:hover {
     animation: tada;
     /* animation: wobble; */
     animation-duration: 2s;
