@@ -1,7 +1,12 @@
+body {
+    background-image: url(/assets/backgrounds/Iconstest.svg);
+    background-size: cover;
+}
+
 .cards {
     background-color: aliceblue;
     height: 20rem;
-    width: 40rem;
+    width: 20rem;
     position: relative;
     border: 2px solid salmon;
     margin: 0 auto;
