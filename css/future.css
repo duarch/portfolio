@@ -8,7 +8,7 @@ body {
     height: 20rem;
     width: 20rem;
     position: relative;
-    border: 2px solid #f50404;
+    border: 2px solid salmon;
     margin: 0 auto;
     border-radius: 25px;
 }
@@ -23,7 +23,6 @@ body {
     background-color: aliceblue;
     border: 2px solid salmon;
     border-radius: 25px;
-    /
 }
 
 div.cards:hover {
