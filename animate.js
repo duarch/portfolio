@@ -28,12 +28,25 @@ var render = function() {
     context.fillRect(0, 0, width, height);
 };
 
+
+
+
+// function Drag(x, y, width, height) {
+//     this.x = x;
+//     this.y = y;
+//     this.width = width;
+//     this.height = height;
+//     this.x_speed = 0;
+//     this.y_speed = 0;
+// }
+
+
 function Box(x, y, width, height) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.x_speed = 3;
+    this.x_speed = 1;
     this.y_speed = 0;
 }
 
@@ -56,6 +69,11 @@ Box.prototype.render = function() {
     context.fillRect(this.x, this.y, this.width, this.height);
 };
 
+// Drag.prototype.render = function() {
+//     context.fillStyle = "#fff";
+//     context.fillRect(this.x, this.y, this.width, this.height);
+// };
+
 function Player() {
     this.paddle = new Paddle(175, 580, 50, 10);
 }
@@ -68,6 +86,10 @@ function Obstacle() {
     this.redbox = new Box(75, 260, 40, 40);
 }
 
+// function DragElem() {
+//     this.drag = new Drag(55, 160, 40, 40);
+// }
+
 Player.prototype.render = function() {
     this.paddle.render();
 };
@@ -79,6 +101,11 @@ Computer.prototype.render = function() {
 Obstacle.prototype.render = function() {
     this.redbox.render();
 }
+
+// DragElem.prototype.render = function() {
+//     this.drag.render()
+// }
+
 
 function Ball(x, y) {
     this.x = x;
@@ -101,6 +128,7 @@ Ball.prototype.render = function() {
 var player = new Player();
 var computer = new Computer();
 var obstacle = new Obstacle();
+// var dragItem = new DragElem();
 var ball = new Ball(200, 300);
 
 
@@ -112,6 +140,7 @@ var render = function() {
     computer.render();
     obstacle.render();
     ball.render();
+    // dragItem.render();
 
 };
 
@@ -129,10 +158,11 @@ Ball.prototype.update = function() {
 Obstacle.prototype.update = function() {
     var caixa = this.redbox
     caixa.x += caixa.x_speed;
-    if (caixa.x + 1 < 0) { //hitting the left wall
-        caixa.x = 5;
+    if (caixa.x - 1 < 0) { //hitting the left wall
+
+        caixa.x = 1;
         caixa.x_speed = -caixa.x_speed;
-    } else if (caixa.x - 1 > 360) { // hitting the right wall
+    } else if (caixa.x + 1 > 360) { // hitting the right wall
         caixa.x = 360;
         caixa.x_speed = -caixa.x_speed;
     }
@@ -153,13 +183,9 @@ Ball.prototype.update = function(paddle1, paddle2, redbox) {
     var bottom_x = this.x + 5;
     var bottom_y = this.y + 5;
 
-    console.log(`A Velocidade de redbox é ${redbox.x_speed}`)
-        // console.log(`A Velocidade de ball é ${this.y_speed}`)
-
-
     if (top_y > 300) {
         if (top_y < (redbox.y + redbox.height) && bottom_y > redbox.y && top_x < (redbox.x + redbox.width) && bottom_x > redbox.x) {
-            // hit the player's paddle
+            // hit the redbox
             this.y_speed = -3;
             this.x_speed += (redbox.x_speed / 2);
             this.y += this.y_speed;
@@ -218,6 +244,8 @@ window.addEventListener("keyup", function(event) {
 var update = function() {
     player.update();
     ball.update(player.paddle, computer.paddle, obstacle.redbox);
+    obstacle.update();
+
 };
 
 Player.prototype.update = function() {
@@ -251,6 +279,7 @@ var update = function() {
     player.update();
     computer.update(ball);
     ball.update(player.paddle, computer.paddle, obstacle.redbox);
+    obstacle.update()
 };
 
 Computer.prototype.update = function(ball) {
