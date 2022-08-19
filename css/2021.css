@@ -4,7 +4,7 @@ body {
     /* background: #7CF7FF; 
 background: -webkit-linear-gradient(to left, #7CF7FF, #4B73FF); 
 background: linear-gradient(to left, #7CF7FF, #4B73FF); */
-    background: url(/assets/aurora.jpg) bottom no-repeat transparent;
+    background: url(./assets/aurora.jpg) bottom no-repeat transparent;
     background-color: rgb(47 186 210);
     background-size: cover;
     height: 100vh;
