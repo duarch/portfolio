@@ -92,7 +92,7 @@ section {
 div h1 {
     color: whitesmoke;
     text-align: center;
-    font-size: 3rem;
+    font-size: 5rem;
     text-shadow: 1px 1px 10px whitesmoke;
     padding-bottom: 5em;
 }
@@ -267,6 +267,9 @@ footer {
         width: 80%;
         margin: 0 auto;
         margin-bottom: 25px;
+    }
+    div h1 {
+        font-size: 3rem;
     }
 }
 
