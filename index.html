@@ -21,6 +21,11 @@
 
     <title>ᕲ</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+    
+
 </head>
 
 <body>
@@ -45,52 +50,125 @@
         </nav>
     </section>
     <div id="welcome-section">
-        <h1 class="title" name="story2">D U A R.C H</h1>
+        
+        <h1 class="title" name="story2"><p><span id="holder"></span><span name="glitch" class="box">.C H</span></p>
+            
+        </h1>
         
     </div>
     <section name="story1" id="projects">
-        <div class="sample-sec">
-            <div class="project-title">
-                <a href="https://persi.ga">
+        <div class="sample-sec ">
+            <div id="persiga">
+            <div class="front project-title">
+                
                     <div class="item" id="persiga">
                         <img src="./assets/persiga.webp" alt="wordle game in portuguese" style="width: 100%" />
                         <div class="project-tile">
                             <p>persi.ga</p>
                         </div>
                     </div>
-                </a>
+                
             </div>
-            <div class="project-title">
-                <a href="https://duarch.github.io/wallspot ">
-                    <div class="item" id="wallspot">
-                        <img src="./assets/wallspot.webp" alt="Wallpaper generator" style="width: 100%" />
+            <div class="back project-title">
+                
+                    <div class="item" >
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis sequi, optio quia rerum quod repudiandae explicabo id ullam natus atque est inventore architecto maxime illum tenetur deserunt harum aut! Nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias exercitationem, quod incidunt odit eius beatae mollitia distinctio corporis in ex. Maxime voluptas corporis veritatis sed reprehenderit corrupti atque harum amet.
+
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis sequi, optio quia rerum quod repudiandae explicabo id ullam natus atque est inventore architecto maxime illum tenetur deserunt harum aut! Nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias exercitationem, quod incidunt odit eius beatae mollitia distinctio corporis in ex. Maxime voluptas corporis veritatis sed reprehenderit corrupti atque harum amet.
+
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis sequi, optio quia rerum quod repudiandae explicabo id ullam natus atque est inventore architecto maxime illum tenetur deserunt harum aut! Nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias exercitationem, quod incidunt odit eius beatae mollitia distinctio corporis in ex. Maxime voluptas corporis veritatis sed reprehenderit corrupti atque harum amet.
+
+                        </p>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis sequi, optio quia rerum quod repudiandae explicabo id ullam natus atque est inventore architecto maxime illum tenetur deserunt harum aut! Nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias exercitationem, quod incidunt odit eius beatae mollitia distinctio corporis in ex. Maxime voluptas corporis veritatis sed reprehenderit corrupti atque harum amet.
+
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis sequi, optio quia rerum quod repudiandae explicabo id ullam natus atque est inventore architecto maxime illum tenetur deserunt harum aut! Nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias exercitationem, quod incidunt odit eius beatae mollitia distinctio corporis in ex. Maxime voluptas corporis veritatis sed reprehenderit corrupti atque harum amet.
+
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis sequi, optio quia rerum quod repudiandae explicabo id ullam natus atque est inventore architecto maxime illum tenetur deserunt harum aut! Nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias exercitationem, quod incidunt odit eius beatae mollitia distinctio corporis in ex. Maxime voluptas corporis veritatis sed reprehenderit corrupti atque harum amet.
+                            
+                        </p>
                         <div class="project-tile">
-                            <p>WallSpot</p>
+                            <p>persi.ga</p>
                         </div>
                     </div>
-                </a>
-            </div>
-            <div class="project-title">
-                <a href="https://duarch.github.io/gloone">
-                    <div class="item" id="gloone">
-                        <img src="./assets/gloone.webp" alt="Google plus clone iguals site Gloone" style="width: 100%" />
-                        <div class="project-tile">
-                            <p>Gloone</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="project-title">
-                <a href="https://duarch.github.io/easypoll ">
-                    <div class="item" id="easypoll">
-                        <img src="./assets/easypoll.webp" alt="site to generate string to easy poll" style="width: 100%" />
-                        <div class="project-tile">
-                            <p>Easy Poll</p>
-                        </div>
-                    </div>
-                </a>
+                
             </div>
         </div>
+
+            <div id="wallspot">
+                <div class="front project-title">
+                    <!-- <a href="https://duarch.github.io/wallspot "> -->
+                        <div class="item">
+                            <img src="./assets/wallspot.webp" alt="Wallpaper generator" style="width: 100%" />
+                            <div class="project-tile">
+                                <p>WallSpot</p>
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="back project-title">
+                    <!-- <a href="https://duarch.github.io/wallspot "> -->
+                        <div class="item">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis inventore rem nobis, eveniet ad ex laudantium eius, odio ullam animi libero accusamus minima cumque, voluptas a atque veniam ratione nihil.
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id labore itaque magnam illum nihil, quis non veniam. Fugiat possimus fuga quae cumque asperiores et. Amet nihil corrupti aut? Reprehenderit, et!
+                            </p>
+                            <div class="project-tile">
+                                <p>WallSpot</p>
+                            </div>
+                        </div>
+                    
+                </div>
+            </div>
+            <div id="gloone">
+                <div class="front project-title">
+                    <!-- <a href="https://duarch.github.io/gloone"> -->
+                        <div class="item" >
+                            <img src="./assets/gloone.webp" alt="Google plus clone iguals site Gloone" style="width: 100%" />
+                            <div class="project-tile">
+                                <p>Gloone</p>
+                            </div>
+                        </div>
+                   
+                </div>
+                <div class="back project-title">
+                    <!-- <a href="https://duarch.github.io/gloone"> -->
+                        <div class="item" >
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus non suscipit, quas dolores assumenda rerum eligendi nihil modi blanditiis ea natus odit consequatur quam fugit, eveniet magni deleniti et voluptatibus.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Error voluptates quia nihil ut hic ad omnis cupiditate aperiam explicabo corrupti a consequatur, exercitationem, fugit maiores accusamus cum voluptatibus inventore quod.
+                            </p>
+                            <div class="project-tile">
+                                <p>Gloone</p>
+                            </div>
+                        </div>
+                   
+                </div>
+            </div>
+            <div id="easypoll">
+                <div class="front project-title">
+                    <!-- <a href="https://duarch.github.io/easypoll "> -->
+                        <div class="item">
+                            <img src="./assets/easypoll.webp" alt="site to generate string to easy poll" style="width: 100%" />
+                            <div class="project-tile">
+                                <p>Easy Poll</p>
+                            </div>
+                        </div>
+                </div>
+                <div class="back project-title">
+                    <!-- <a href="https://duarch.github.io/easypoll "> -->
+                        <div class="item">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto quis minus deserunt magnam, vel repellat deleniti recusandae minima magni quo mollitia, iusto, totam nihil id inventore incidunt dolores similique sapiente.
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque distinctio perspiciatis provident nihil placeat, illum suscipit error odio neque. Facilis eius sint, assumenda perspiciatis a delectus voluptatum reiciendis ea praesentium? </p>
+                            <div class="project-tile">
+                                <p>Easy Poll</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+
+
     </section>
     <footer class="foot--links">
         <div class="container">
@@ -105,7 +183,7 @@
             </p>
         </div>
     </footer>
-    <script src="script.js "></script>
+    
 </body>
-
+<script src="script.js "></script>
 </html>
