@@ -70,8 +70,12 @@ $(document).ready(function () {
 
 });
 
+var cards = document.querySelectorAll('.card');
 
-$("#persiga").flip({autoSize:false});
-$("#gloone").flip({autoSize:false});
-$("#wallspot").flip({autoSize:false});
-$("#easypoll").flip({autoSize:false});
+[...cards].forEach((card)=>{
+  card.addEventListener( 'click', function() {
+    card.classList.toggle('is-flipped');
+  });
+});
+
+

@@ -222,18 +222,16 @@ div.project-tile {
 
 .sample-sec {
   display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-  align-content: space-between;
-  padding: 3rem;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-content: center;
+  /* padding: 0; */
   /* margin: 0; */
   list-style: none;
 }
 
 .project-title {
-  height: 100%;
   border-radius: 6px;
-
   width: 36%;
   background-color: white;
   box-shadow: 3px 6px 6px 0 rgba(0, 0, 0, 0.25), 0 8px 8px 0 rgba(0, 0, 0, 0.3);
@@ -252,27 +250,57 @@ div.project-tile {
   border-top-right-radius: 6px;
 }
 
-/* Area de testes */
+/* area de testes */
+.newcards {
+  max-width: 80%;
+  height: auto;
+}
 
-.project-teste {
-  border-radius: 6px;
-  width: 36%;
-  background-color: white;
-  box-shadow: 3px 6px 6px 0 rgba(0, 0, 0, 0.25), 0 8px 8px 0 rgba(0, 0, 0, 0.3);
-  margin-bottom: 2em;
-  text-decoration: none;
+.scene {
+  display: inline-block;
+  width: 200px;
+  height: 260px;
+  /*   border: 1px solid #CCC; */
+  margin: 40px 0;
+  perspective: 600px;
+
+  justify-content: space-around;
+  align-content: center;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
   cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: transform 1s;
 }
 
-.project-teste:active {
-  background-color: whitesmoke;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
-  transform: translateX(2px) translateY(2px);
+.card.is-flipped {
+  transform: translateX(-100%) rotateY(-180deg);
 }
 
-.project-teste img {
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  line-height: 260px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+  backface-visibility: hidden;
+}
+
+.card__face--front {
+  background: crimson;
+}
+
+.card__face--back {
+  background: slateblue;
+  transform: rotateY(180deg);
 }
 
 /* Fim da area de testes */
