@@ -221,22 +221,42 @@ div.project-tile {
 } */
 
 .sample-sec {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
-  align-content: center;
-  /* padding: 0; */
-  /* margin: 0; */
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50% ;
+  column-gap: .5em;
+  row-gap: .5em;
   list-style: none;
+  position: absolute;
+}
+
+.card {
+  justify-self: center;
+  align-self: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: top right;
+  transition: transform 1s;
+  border: 1px solid red;
+    
+
 }
 
 .project-title {
   border-radius: 6px;
-  width: 36%;
+  /* width: 36%; */
   background-color: white;
   box-shadow: 3px 6px 6px 0 rgba(0, 0, 0, 0.25), 0 8px 8px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 2em;
   text-decoration: none;
+}
+
+.back {
+  transform: rotateY(180deg);
+  /* position: absolute; */
 }
 
 .project-title:active {
@@ -251,16 +271,19 @@ div.project-tile {
 }
 
 /* area de testes */
-.newcards {
+/* .newcards {
   max-width: 80%;
   height: auto;
 }
 
 .scene {
-  display: inline-block;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50% ;
+
   width: 200px;
   height: 260px;
-  /*   border: 1px solid #CCC; */
+    border: 1px solid #CCC;
   margin: 40px 0;
   perspective: 600px;
 
@@ -269,28 +292,33 @@ div.project-tile {
 }
 
 .card {
+  justify-self: center;
+  align-self: center;
   position: relative;
   width: 100%;
   height: 100%;
   cursor: pointer;
   transform-style: preserve-3d;
-  transform-origin: center right;
+  transform-origin: top right;
   transition: transform 1s;
-}
+    border: 1px solid red;
+    
+
+} */
 
 .card.is-flipped {
   transform: translateX(-100%) rotateY(-180deg);
 }
 
-.card__face {
+/* .card__face {
   position: absolute;
   width: 100%;
   height: 100%;
-  line-height: 260px;
+  line-height: .5em;
   color: white;
   text-align: center;
   font-weight: bold;
-  font-size: 40px;
+  font-size: .5em;
   backface-visibility: hidden;
 }
 
@@ -301,7 +329,7 @@ div.project-tile {
 .card__face--back {
   background: slateblue;
   transform: rotateY(180deg);
-}
+} */
 
 /* Fim da area de testes */
 
