@@ -211,7 +211,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="hero" id="top" ref={heroRef}>
-        <div className="hero-media" aria-hidden="true">
+        <div className="hero-media" aria-label="Animação 3D de quebra-cabeca que monta a palavra DUAR.CH">
           <PuzzleScene piecesRef={piecesRef} />
         </div>
         <div className="hero-content">
@@ -222,28 +222,31 @@ export default function App() {
             pecas para entregar experiencias completas.
           </p>
           <div className="hero-actions">
-            <a className="btn btn-primary" href="#projects">
+            <a className="btn btn-primary" href="#projects" aria-label="Ver projetos - ir para secao de projetos">
               Ver projetos
             </a>
-            <a className="btn btn-ghost" href="#contact">
+            <a className="btn btn-ghost" href="https://api.whatsapp.com/send?phone=5561920028650&text=👋" target="_blank" rel="noreferrer" aria-label="Entrar em contato via WhatsApp - abre em nova aba">
               Entrar em contato
             </a>
+            <a className="btn btn-ghost" href="/resume/" aria-label="Ver meu currículo completo">
+              Currículo
+            </a>
           </div>
-          <div className="scroll-hint">
+          <div className="scroll-hint" aria-live="polite" aria-label="Dica: Role a pagina para ver a animacao do quebra-cabeca se montando">
             <span>Scroll para montar</span>
-            <div className="scroll-line" />
+            <div className="scroll-line" aria-hidden="true" />
           </div>
         </div>
       </header>
 
-      <section className="section section-light" id="deliver">
+      <section className="section section-light" id="deliver" aria-labelledby="skills-heading">
         <div className="section-header reveal">
           <p className="eyebrow">Como eu me encaixo</p>
-          <h2>O que eu entrego</h2>
+          <h2 id="skills-heading">O que eu entrego</h2>
         </div>
-        <div className="skill-grid">
+        <div className="skill-grid" role="list">
           {skills.map((skill) => (
-            <article className="skill-card reveal" key={skill.title}>
+            <article className="skill-card reveal" key={skill.title} role="listitem">
               <h3>{skill.title}</h3>
               <p>{skill.description}</p>
             </article>
@@ -251,15 +254,15 @@ export default function App() {
         </div>
       </section>
 
-      <section className="section section-dark" id="story">
+      <section className="section section-dark" id="story" aria-labelledby="timeline-heading">
         <div className="section-header reveal">
           <p className="eyebrow">Montando a jornada</p>
-          <h2>Storytelling tecnico</h2>
+          <h2 id="timeline-heading">Storytelling tecnico</h2>
         </div>
-        <div className="timeline">
+        <div className="timeline" role="list">
           {timeline.map((item) => (
-            <div className="timeline-item reveal" key={item.year}>
-              <div className="timeline-year">{item.year}</div>
+            <div className="timeline-item reveal" key={item.year} role="listitem">
+              <div className="timeline-year" aria-label={`ano ${item.year}`}>{item.year}</div>
               <div className="timeline-content">
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
@@ -269,22 +272,22 @@ export default function App() {
         </div>
       </section>
 
-      <section className="section section-light" id="projects">
+      <section className="section section-light" id="projects" aria-labelledby="projects-heading">
         <div className="section-header reveal">
           <p className="eyebrow">Destaques</p>
-          <h2>Projetos em foco</h2>
+          <h2 id="projects-heading">Projetos em foco</h2>
         </div>
-        <div className="project-list">
+        <div className="project-list" role="list">
           {projects.map((project) => (
-            <article className="project-card reveal" key={project.name}>
+            <article className="project-card reveal" key={project.name} role="listitem">
               <div className="project-visual">
-                <img src={project.image} alt={project.name} />
+                <img src={project.image} alt={`Imagem do projeto ${project.name}: ${project.description}`} loading="lazy" />
               </div>
               <div className="project-info">
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
-                <a className="project-link" href={project.link} target="_blank" rel="noreferrer">
-                  Ver projeto →
+                <a className="project-link" href={project.link} target="_blank" rel="noreferrer" aria-label={`Ver projeto ${project.name} (abre em nova aba)`}>
+                  Ver projeto <span aria-hidden="true">→</span>
                 </a>
               </div>
             </article>
@@ -292,11 +295,11 @@ export default function App() {
         </div>
       </section>
 
-      <section className="section section-dark" id="why">
+      <section className="section section-dark" id="why" aria-labelledby="unique-heading">
         <div className="split">
           <div className="split-text reveal">
             <p className="eyebrow">Diferencial</p>
-            <h2>Eu nao sou apenas mais uma peca.</h2>
+            <h2 id="unique-heading">Eu nao sou apenas mais uma peca.</h2>
             <p>
               Sou a peca que conecta as outras. Traduzo objetivos em experiencias
               claras, construo pontes entre produto e tecnologia e entro no time
@@ -304,7 +307,7 @@ export default function App() {
             </p>
           </div>
           <div className="split-visual reveal" aria-hidden="true">
-            <div className="puzzle-connector">
+            <div className="puzzle-connector" aria-label="Visualizacao decorativa de pecas de quebra-cabeca em orbita">
               <div className="center-piece"></div>
               <div className="orbit-piece piece-1"></div>
               <div className="orbit-piece piece-2"></div>
@@ -315,43 +318,44 @@ export default function App() {
         </div>
       </section>
 
-      <section className="section section-light" id="archive">
+      <section className="section section-light" id="archive" aria-labelledby="archive-heading">
         <div className="section-header reveal">
           <p className="eyebrow">Arquivo</p>
-          <h2>Evolucao e versoes antigas</h2>
+          <h2 id="archive-heading">Evolucao e versoes antigas</h2>
         </div>
-        <div className="archive-grid">
+        <div className="archive-grid" role="list">
           {archive.map((item) => (
-            <a className="archive-card reveal" href={item.link} key={item.year}>
-              <span className="archive-year">{item.year}</span>
+            <a className="archive-card reveal" href={item.link} key={item.year} role="listitem" aria-label={`${item.label} - ${item.year}`}>
+              <span className="archive-year" aria-hidden="true">{item.year}</span>
               <span className="archive-label">{item.label}</span>
             </a>
           ))}
         </div>
       </section>
 
-      <section className="section section-dark" id="contact">
+      <section className="section section-dark" id="contact" aria-labelledby="contact-heading">
         <div className="cta reveal">
-          <h2>Vamos montar algo juntos?</h2>
+          <h2 id="contact-heading">Vamos montar algo juntos?</h2>
           <p>
             Me chama para conversar sobre produto, tecnologia ou aquele desafio
             que precisa de uma peca nova.
           </p>
-          <a className="btn btn-primary" href="mailto:andre@duar.ch">
+          <a className="btn btn-primary" href="mailto:andre@duar.ch" aria-label="Enviar email para andre@duar.ch">
             Entrar em contato
           </a>
         </div>
       </section>
 
-      <footer className="footer">
+      <footer className="footer" role="contentinfo">
         <div>
           <span>© 2026 DUAR.CH</span>
         </div>
-        <div className="footer-links">
-          <a href="https://github.com/duarch">GitHub</a>
-          <a href="https://twitter.com/andrebh">Twitter</a>
-          <a href="https://dev.to/duarch">DEV</a>
-        </div>
+        <nav className="footer-links" aria-label="Links adicionais e redes sociais">
+          <a href="/resume/" aria-label="Ver meu resume completo">Resume</a>
+          <a href="https://github.com/duarch" aria-label="Perfil GitHub de Andre">GitHub</a>
+          <a href="https://twitter.com/andrebh" aria-label="Perfil Twitter de Andre">Twitter</a>
+          <a href="https://dev.to/duarch" aria-label="Perfil DEV.to de Andre">DEV</a>
+        </nav>
       </footer>
     </div>
   );
