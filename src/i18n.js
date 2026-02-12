@@ -101,7 +101,7 @@ export const translations = {
     projectsTitle: "Projects in focus",
     projects: [
       {
-        name: "persi.ga",
+        name: "Persiga",
         description: "Portuguese Wordle focused on community.",
         link: "https://persiga.duar.ch",
         image: "/assets/persiga.webp",
@@ -256,7 +256,7 @@ export const translations = {
     projectsTitle: "Projetos em foco",
     projects: [
       {
-        name: "persi.ga",
+        name: "Persiga",
         description: "Wordle em português com foco em comunidade.",
         link: "https://persiga.duar.ch",
         image: "/assets/persiga.webp",
@@ -411,7 +411,7 @@ export const translations = {
     projectsTitle: "Proyectos en foco",
     projects: [
       {
-        name: "persi.ga",
+        name: "Persiga",
         description: "Wordle en portugués enfocado en comunidad.",
         link: "https://persiga.duar.ch",
         image: "/assets/persiga.webp",
