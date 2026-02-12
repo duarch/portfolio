@@ -1,0 +1,283 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,100;1,500&display=swap");
+html,
+body {
+    /* background: #7CF7FF; 
+background: -webkit-linear-gradient(to left, #7CF7FF, #4B73FF); 
+background: linear-gradient(to left, #7CF7FF, #4B73FF); */
+    background: url(/assets/aurora.jpg) bottom no-repeat transparent;
+    background-color: rgb(47 186 210);
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: #001;
+}
+
+
+/* story11 */
+
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #001;
+}
+
+.nav-ul li {
+    float: right;
+}
+
+.nav-ul a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.proj li {
+    color: black;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+
+/* story10 200~The height of the welcome section should be equal to the height of the viewport. */
+
+#welcome-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    margin-bottom: 2rem;
+    /* background-color: rgba(255, 255, 255, .1); */
+}
+
+#projects {
+    max-width: 80%;
+    height: auto;
+}
+
+section {
+    /* background-color: rgba(255, 255, 255, .1); */
+    /* background-blend-mode: lighten; */
+    border-radius: 6px;
+    padding-top: 2rem;
+    /* padding: 2rem; */
+    width: auto;
+    margin: 0 auto;
+    /* box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.363); */
+    top: 1em;
+    margin-bottom: 2rem;
+}
+
+div h1 {
+    color: whitesmoke;
+    text-align: center;
+    font-size: 5rem;
+    text-shadow: 1px 1px 10px whitesmoke;
+    padding-bottom: 5em;
+}
+
+.indicator {
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    /* height: 100vh; */
+    justify-content: center;
+    align-items: flex-end;
+    font-family: sans-serif;
+    /* background: transparent; */
+    position: relative;
+    width: 50px;
+    height: 50px;
+    transform: rotate(45deg);
+}
+
+.indicator span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 3px solid #fff;
+    border-right: 3px solid #fff;
+    animation: animate 1.5s backwards infinite;
+}
+
+.indicator span:nth-child(1) {
+    top: -30px;
+    left: -30px;
+    animation-delay: 1.5s;
+}
+
+.indicator span:nth-child(2) {
+    top: -15px;
+    left: -15px;
+    animation-delay: 1.7s;
+}
+
+.indicator span:nth-child(3) {
+    top: 0;
+    left: 0;
+    animation-delay: 1.9s;
+}
+
+.indicator span:nth-child(4) {
+    top: 15px;
+    left: 15px;
+    animation-delay: 2.1s;
+}
+
+.indicator span:nth-child(5) {
+    top: 30px;
+    left: 30px;
+    animation-delay: 2.3s;
+}
+
+@keyframes animate {
+    0% {
+        border-color: #fff;
+        transform: translate(0, 0);
+    }
+    20% {
+        border-color: #fff;
+        transform: translate(15px, 15px);
+    }
+    20.1%,
+    100% {
+        border-color: rgb(47 186 210);
+    }
+}
+
+div.project-tile {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+
+/* .item {
+    border: thick grey;
+} */
+
+.sample-sec {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-content: center;
+    /* padding: 0; */
+    /* margin: 0; */
+    list-style: none;
+    background-color: rgb(47 186 210);
+}
+
+.project-title {
+    border-radius: 6px;
+    width: 36%;
+    background-color: white;
+    box-shadow: 3px 6px 6px 0 rgba(0, 0, 0, 0.25), 0 8px 8px 0 rgba(0, 0, 0, 0.3);
+    margin-bottom: 2em;
+    text-decoration: none;
+}
+
+.project-title:active {
+    background-color: whitesmoke;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+    transform: translateX(2px) translateY(2px);
+}
+
+.project-title img {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+
+/* Area de testes */
+
+.project-teste {
+    border-radius: 6px;
+    width: 36%;
+    background-color: white;
+    box-shadow: 3px 6px 6px 0 rgba(0, 0, 0, 0.25), 0 8px 8px 0 rgba(0, 0, 0, 0.3);
+    margin-bottom: 2em;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.project-teste:active {
+    background-color: whitesmoke;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+    transform: translateX(2px) translateY(2px);
+}
+
+.project-teste img {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+
+/* Fim da area de testes */
+
+footer {
+    color: white;
+    text-align: center;
+    font-style: italic;
+    list-style-type: none;
+    margin: 0;
+    padding: 1em;
+    background-color: #001;
+}
+
+.background {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+@media all and (max-width: 500px) {
+    .sample-sec {
+        /* On small screens, we are no longer using row direction but column */
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+    div.project-title {
+        width: 80%;
+        margin: 0 auto;
+        margin-bottom: 25px;
+    }
+    div h1 {
+        font-size: 3rem;
+    }
+}
+
+
+/* story9  at list one media query */
+
+@media (max-width: 100px) {
+    p {
+        font-size: 10px;
+    }
+}

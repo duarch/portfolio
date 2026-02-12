@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="Resume/CV de André Duarte - Desenvolvedor Fullstack com experiência em Angular, Node.js e Web Development"
+    />
+    <meta name="theme-color" content="#0f0f0f" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://duar.ch/resume/" />
+    <meta property="og:title" content="Resume - André Duarte" />
+    <meta property="og:site_name" content="duar.ch" />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href="https://duar.ch/resume/" />
+    <title>Resume - André Duarte</title>
+    <script>
+      // Redirecionador inteligente baseado em localStorage e localização
+      (function() {
+        const lang = localStorage.getItem('language') || navigator.language?.split('-')[0] || 'pt';
+        
+        // Mapa de linguagem para diretório
+        const langMap = {
+          'pt': '/resume/pt/',
+          'en': '/resume/en/',
+          'es': '/resume/es/'
+        };
+        
+        const target = langMap[lang] || '/resume/pt/';
+        window.location.href = target;
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Fallback caso JavaScript esteja desabilitado - mostra versão em PT -->
+    <div style="font-family: sans-serif; padding: 2rem; text-align: center;">
+      <p>Redirecionando...</p>
+      <p><a href="/">Clique aqui se a página não redirecionar automaticamente</a></p>
+    </div>

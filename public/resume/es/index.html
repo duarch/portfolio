@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="Currículum/CV de André Duarte - Desarrollador Fullstack con experiencia en Angular, Node.js y Web Development"
+    />
+    <meta name="theme-color" content="#0f0f0f" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:url" content="https://duar.ch/resume/es/" />
+    <meta property="og:title" content="Currículum - André Duarte" />
+    <meta property="og:site_name" content="duar.ch" />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href="https://duar.ch/resume/es/" />
+    <title>Currículum - André Duarte</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Sora:wght@300;400;600&display=swap");
+
+      /* ========== ACESSIBILIDADE: Respeitar preferência de movimento reduzido ========== */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      :root {
+        color-scheme: light dark;
+        --bg-dark: #0f0f0f;
+        --bg-light: #f5f5f5;
+        --text-dark: #0f0f0f;
+        --text-light: #f5f5f5;
+        --accent-blue: #3a86ff;
+        --accent-green: #2ecc71;
+        --muted: #c9c9c9;
+        --radius: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Sora", sans-serif;
+        background: radial-gradient(circle at 10% 10%, #1c1c1c, #0f0f0f 60%);
+        color: var(--text-light);
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 4rem clamp(2rem, 6vw, 8rem);
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .back-btn {
+        background: #222;
+        color: var(--text-light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .back-btn:hover {
+        background: #333;
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+
+      h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.8rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--accent-blue);
+      }
+
+      h3 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.2rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.8rem;
+        color: var(--text-light);
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      ul {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+        color: var(--text-light);
+      }
+
+      .section {
+        margin-bottom: 2rem;
+      }
+
+      .job {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+        border-left: 2px solid var(--accent-blue);
+      }
+
+      .job-title {
+        font-weight: 600;
+        color: var(--accent-blue);
+        margin-bottom: 0.3rem;
+      }
+
+      .job-company {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .contact-list {
+        list-style: none;
+        margin-left: 0;
+      }
+
+      .contact-list li {
+        margin-bottom: 0.8rem;
+      }
+
+      .contact-list a {
+        color: var(--accent-blue);
+        font-weight: 600;
+      }
+
+      .contact-list a:hover {
+        text-decoration: underline;
+      }
+
+      footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+
+        h2 {
+          font-size: 1.4rem;
+        }
+
+        header {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: flex-start;
+        }
+
+        .back-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>André Duarte</h1>
+        <a href="/" class="back-btn">← Volver</a>
+      </header>
+
+      <section class="section">
+        <p>
+          <strong>Desarrollador</strong>
+          • Brasília, DF, Brasil
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>📄 Resumen</h2>
+        <ul>
+          <li>
+            Experiencia sólida en entorno bancario, con 26 años de actividad en
+            el Banco do Brasil en diversos cargos.
+          </li>
+          <li>
+            Está construyendo un nuevo camino de carrera enfocado en el
+            desarrollo web fullstack.
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>🛠 Habilidades e Idiomas</h2>
+
+        <h3>Competencias Principales</h3>
+        <ul>
+          <li>Angular</li>
+          <li>Node.js</li>
+          <li>React</li>
+          <li>Full Stack Development</li>
+          <li>Diseño Web & UX</li>
+          <li>Automatización & DevOps</li>
+        </ul>
+
+        <h3>Idiomas</h3>
+        <ul>
+          <li>
+            <strong>Portugués:</strong>
+            Nativo
+          </li>
+          <li>
+            <strong>Inglés:</strong>
+            Bilingüe
+          </li>
+          <li>
+            <strong>Lengua de Signos Brasileña (Libras):</strong>
+            Profesional
+          </li>
+          <li>
+            <strong>Español:</strong>
+            Profesional
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>💼 Experiencia Profesional</h2>
+
+        <div class="job">
+          <div class="job-title">Asesor III UE (Desarrollador Full Stack)</div>
+          <div class="job-company">
+            Banco do Brasil • Diciembre de 2023 – Presente (2 años)
+          </div>
+          <p>Brasília, DF</p>
+        </div>
+
+        <div class="job">
+          <div class="job-title">Agente Comercial</div>
+          <div class="job-company">
+            Banco do Brasil • Septiembre de 2016 – Diciembre de 2023 (7 años)
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-title">Gerente de Sucursal</div>
+          <div class="job-company">
+            Banco do Brasil • Enero de 2012 – Septiembre de 2016 (4 años)
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-title">Gerente de Equipo de Servicio al Cliente</div>
+          <div class="job-company">
+            Banco do Brasil • Enero de 2003 – Diciembre de 2011 (9 años)
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-title">Escriturario</div>
+          <div class="job-company">
+            Banco do Brasil • Marzo de 2000 – 2003 (3 años)
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>🎓 Educación</h2>
+
+        <div class="job">
+          <div class="job-title">
+            MBA en Administración y Gestión de Negocios
+          </div>
+          <div class="job-company">
+            FIJ - Facultades Integradas de Jacarepaguá • 2010
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-title">Especialización en Finanzas</div>
+          <div class="job-company">
+            Universidad Federal de Minas Gerais • 2007-2008
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-title">
+            Licenciatura en Administración de Empresas
+          </div>
+          <div class="job-company">
+            UNIFEMM - Centro Universitario de Sete Lagoas • 2001-2005
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-title">Inglés</div>
+          <div class="job-company">Oxford English Centre • 2003</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>📜 Certificaciones</h2>
+        <ul>
+          <li>Diseño Gráfico</li>
+          <li>Accesibilidad Web</li>
+          <li>HTML para Diseñadores</li>
+          <li>Gestión de Crédito</li>
+          <li>GO: Desarrollo de una API REST</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>📞 Contacto</h2>
+        <ul class="contact-list">
+          <li>
+            <strong>Teléfono:</strong>
+            +55 (61) 92002-8650
+          </li>
+          <li>
+            <strong>Correo:</strong>
+            <a href="mailto:andre.bh@hotmail.com">andre.bh@hotmail.com</a>
+          </li>
+          <li>
+            <strong>LinkedIn:</strong>
+            <a
+              href="https://linkedin.com/in/andreduarte"
+              target="_blank"
+              rel="noreferrer"
+            >
+              linkedin.com/in/andreduarte
+            </a>
+          </li>
+          <li>
+            <strong>Portafolio:</strong>
+            <a href="https://duar.ch" target="_blank" rel="noreferrer">
+              duar.ch
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <footer>
+        <p>© 2026 André Duarte • Desarrollador Full Stack</p>
+      </footer>
+    </div>
+  </body>
+</html>
