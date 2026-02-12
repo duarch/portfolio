@@ -1,113 +1,26 @@
 import { useEffect, useRef } from "react";
 import PuzzleScene, { puzzlePositions } from "./components/PuzzleScene.jsx";
+import LanguageSwitcher from "./components/LanguageSwitcher.jsx";
+import { useLanguage } from "./contexts/LanguageContext.jsx";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const skills = [
-  {
-    title: "Frontend",
-    description: "Interfaces vivas, acessiveis e com personalidade.",
-  },
-  {
-    title: "Backend",
-    description: "APIs estaveis, integracoes e dados no lugar certo.",
-  },
-  {
-    title: "UI/UX",
-    description: "Fluxos claros, micro-interacoes e hierarquia visual.",
-  },
-  {
-    title: "Automacao",
-    description: "Pipelines, tarefas repetitivas e deploy sem dor.",
-  },
-  {
-    title: "Arquitetura",
-    description: "Bases solidas para crescer sem travar.",
-  },
-  {
-    title: "Produto",
-    description: "Visao de negocio e foco em impacto real.",
-  },
-];
-
-const timeline = [
-  {
-    year: "2018",
-    title: "Primeiras experiencias",
-    text: "Comeco da jornada com web e design.",
-  },
-  {
-    year: "2020",
-    title: "Projetos reais",
-    text: "Sites, dashboards e produtos no mundo real.",
-  },
-  {
-    year: "2022",
-    title: "Automacao e backend",
-    text: "Processos, APIs e infraestrutura organizada.",
-  },
-  {
-    year: "2024",
-    title: "IA e sistemas modernos",
-    text: "Experimentos com AI aplicada e produtos rapidos.",
-  },
-  {
-    year: "2026",
-    title: "Peca pronta",
-    text: "Visao completa para encaixar no time certo.",
-  },
-];
-
-const projects = [
-  {
-    name: "persi.ga",
-    description: "Wordle em portugues com foco em comunidade.",
-    link: "https://persiga.duar.ch",
-    image: "/assets/persiga.webp",
-  },
-  {
-    name: "WallSpot",
-    description: "Gerador de wallpapers com identidade forte.",
-    link: "https://github.com/duarch/WallSpot",
-    image: "/assets/wallspot.webp",
-  },
-  {
-    name: "Gloone",
-    description: "Clone conceitual com foco em UI e detalhes.",
-    link: "https://duarch.github.io/gloone",
-    image: "/assets/gloone.webp",
-  },
-  {
-    name: "Easy Poll",
-    description: "Ferramenta leve para criar enquetes rapidas.",
-    link: "https://duarch.github.io/easypoll",
-    image: "/assets/easypoll.webp",
-  },
-];
-
-const archive = [
-  {
-    year: "2026",
-    label: "Puzzle Story (atual)",
-    link: "/",
-  },
-  {
-    year: "2023",
-    label: "Versao minimalista",
-    link: "/2023/",
-  },
-  {
-    year: "2021",
-    label: "Versao anterior",
-    link: "/2021/",
-  },
-];
-
 export default function App() {
   const heroRef = useRef(null);
   const piecesRef = useRef([]);
+  const { t, language } = useLanguage();
+
+  // Definir URL do currículo baseado no idioma
+  const getResumeUrl = () => {
+    const urlMap = {
+      'pt': '/resume/',
+      'en': '/resume/en/',
+      'es': '/resume/es/'
+    };
+    return urlMap[language] || '/resume/';
+  };
 
   // ScrollTrigger + Animação das peças (FORA do Canvas)
   useEffect(() => {
@@ -210,30 +123,31 @@ export default function App() {
 
   return (
     <div className="app">
+      <LanguageSwitcher />
+
       <header className="hero" id="top" ref={heroRef}>
-        <div className="hero-media" aria-label="Animação 3D de quebra-cabeca que monta a palavra DUAR.CH">
+        <div className="hero-media" aria-label={t("puzzleAlt")}>
           <PuzzleScene piecesRef={piecesRef} />
         </div>
         <div className="hero-content">
-          <p className="eyebrow">DUAR.CH 2026</p>
-          <h1>Sou a peca que falta no seu time.</h1>
+          <p className="eyebrow">{t("eyebrow")}</p>
+          <h1>{t("heroTitle")}</h1>
           <p className="hero-subtitle">
-            Fullstack com visao de produto, design e automacao. Eu conecto as
-            pecas para entregar experiencias completas.
+            {t("heroSubtitle")}
           </p>
           <div className="hero-actions">
-            <a className="btn btn-primary" href="#projects" aria-label="Ver projetos - ir para secao de projetos">
-              Ver projetos
+            <a className="btn btn-primary" href="#projects" aria-label={`${t("viewProjects")} - ir para secao de projetos`}>
+              {t("viewProjects")}
             </a>
-            <a className="btn btn-ghost" href="https://api.whatsapp.com/send?phone=5561920028650&text=👋" target="_blank" rel="noreferrer" aria-label="Entrar em contato via WhatsApp - abre em nova aba">
-              Entrar em contato
+            <a className="btn btn-ghost" href="https://api.whatsapp.com/send?phone=5561920028650&text=👋" target="_blank" rel="noreferrer" aria-label={`${t("contactMe")} via WhatsApp - abre em nova aba`}>
+              {t("contactMe")}
             </a>
-            <a className="btn btn-ghost" href="/resume/" aria-label="Ver meu currículo completo">
-              Currículo
+            <a className="btn btn-ghost" href={getResumeUrl()} aria-label={`Ver meu ${t("curriculum").toLowerCase()} completo`}>
+              {t("curriculum")}
             </a>
           </div>
-          <div className="scroll-hint" aria-live="polite" aria-label="Dica: Role a pagina para ver a animacao do quebra-cabeca se montando">
-            <span>Scroll para montar</span>
+          <div className="scroll-hint" aria-live="polite" aria-label={`Dica: Role a pagina para ver a animacao do quebra-cabeca se montando`}>
+            <span>{t("scrollHint")}</span>
             <div className="scroll-line" aria-hidden="true" />
           </div>
         </div>
@@ -241,11 +155,11 @@ export default function App() {
 
       <section className="section section-light" id="deliver" aria-labelledby="skills-heading">
         <div className="section-header reveal">
-          <p className="eyebrow">Como eu me encaixo</p>
-          <h2 id="skills-heading">O que eu entrego</h2>
+          <p className="eyebrow">{t("skillsEyebrow")}</p>
+          <h2 id="skills-heading">{t("skillsTitle")}</h2>
         </div>
         <div className="skill-grid" role="list">
-          {skills.map((skill) => (
+          {t("skills").map((skill) => (
             <article className="skill-card reveal" key={skill.title} role="listitem">
               <h3>{skill.title}</h3>
               <p>{skill.description}</p>
@@ -256,11 +170,11 @@ export default function App() {
 
       <section className="section section-dark" id="story" aria-labelledby="timeline-heading">
         <div className="section-header reveal">
-          <p className="eyebrow">Montando a jornada</p>
-          <h2 id="timeline-heading">Storytelling tecnico</h2>
+          <p className="eyebrow">{t("timelineEyebrow")}</p>
+          <h2 id="timeline-heading">{t("timelineTitle")}</h2>
         </div>
         <div className="timeline" role="list">
-          {timeline.map((item) => (
+          {t("timeline").map((item) => (
             <div className="timeline-item reveal" key={item.year} role="listitem">
               <div className="timeline-year" aria-label={`ano ${item.year}`}>{item.year}</div>
               <div className="timeline-content">
@@ -274,11 +188,11 @@ export default function App() {
 
       <section className="section section-light" id="projects" aria-labelledby="projects-heading">
         <div className="section-header reveal">
-          <p className="eyebrow">Destaques</p>
-          <h2 id="projects-heading">Projetos em foco</h2>
+          <p className="eyebrow">{t("projectsEyebrow")}</p>
+          <h2 id="projects-heading">{t("projectsTitle")}</h2>
         </div>
         <div className="project-list" role="list">
-          {projects.map((project) => (
+          {t("projects").map((project) => (
             <article className="project-card reveal" key={project.name} role="listitem">
               <div className="project-visual">
                 <img src={project.image} alt={`Imagem do projeto ${project.name}: ${project.description}`} loading="lazy" />
@@ -286,8 +200,8 @@ export default function App() {
               <div className="project-info">
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
-                <a className="project-link" href={project.link} target="_blank" rel="noreferrer" aria-label={`Ver projeto ${project.name} (abre em nova aba)`}>
-                  Ver projeto <span aria-hidden="true">→</span>
+                <a className="project-link" href={project.link} target="_blank" rel="noreferrer" aria-label={`${t("viewProject")} ${project.name} (abre em nova aba)`}>
+                  {t("viewProject")} <span aria-hidden="true">→</span>
                 </a>
               </div>
             </article>
@@ -298,12 +212,10 @@ export default function App() {
       <section className="section section-dark" id="why" aria-labelledby="unique-heading">
         <div className="split">
           <div className="split-text reveal">
-            <p className="eyebrow">Diferencial</p>
-            <h2 id="unique-heading">Eu nao sou apenas mais uma peca.</h2>
+            <p className="eyebrow">{t("uniqueEyebrow")}</p>
+            <h2 id="unique-heading">{t("uniqueTitle")}</h2>
             <p>
-              Sou a peca que conecta as outras. Traduzo objetivos em experiencias
-              claras, construo pontes entre produto e tecnologia e entro no time
-              para destravar o proximo nivel.
+              {t("uniqueText")}
             </p>
           </div>
           <div className="split-visual reveal" aria-hidden="true">
@@ -320,11 +232,11 @@ export default function App() {
 
       <section className="section section-light" id="archive" aria-labelledby="archive-heading">
         <div className="section-header reveal">
-          <p className="eyebrow">Arquivo</p>
-          <h2 id="archive-heading">Evolucao e versoes antigas</h2>
+          <p className="eyebrow">{t("archiveEyebrow")}</p>
+          <h2 id="archive-heading">{t("archiveTitle")}</h2>
         </div>
         <div className="archive-grid" role="list">
-          {archive.map((item) => (
+          {t("archive").map((item) => (
             <a className="archive-card reveal" href={item.link} key={item.year} role="listitem" aria-label={`${item.label} - ${item.year}`}>
               <span className="archive-year" aria-hidden="true">{item.year}</span>
               <span className="archive-label">{item.label}</span>
@@ -335,26 +247,25 @@ export default function App() {
 
       <section className="section section-dark" id="contact" aria-labelledby="contact-heading">
         <div className="cta reveal">
-          <h2 id="contact-heading">Vamos montar algo juntos?</h2>
+          <h2 id="contact-heading">{t("contactTitle")}</h2>
           <p>
-            Me chama para conversar sobre produto, tecnologia ou aquele desafio
-            que precisa de uma peca nova.
+            {t("contactText")}
           </p>
-          <a className="btn btn-primary" href="mailto:andre@duar.ch" aria-label="Enviar email para andre@duar.ch">
-            Entrar em contato
+          <a className="btn btn-primary" href="mailto:andre@duar.ch" aria-label={`Enviar email para andre@duar.ch`}>
+            {t("contactButton")}
           </a>
         </div>
       </section>
 
       <footer className="footer" role="contentinfo">
         <div>
-          <span>© 2026 DUAR.CH</span>
+          <span>{t("copyright")}</span>
         </div>
         <nav className="footer-links" aria-label="Links adicionais e redes sociais">
-          <a href="/resume/" aria-label="Ver meu resume completo">Resume</a>
-          <a href="https://github.com/duarch" aria-label="Perfil GitHub de Andre">GitHub</a>
-          <a href="https://twitter.com/andrebh" aria-label="Perfil Twitter de Andre">Twitter</a>
-          <a href="https://dev.to/duarch" aria-label="Perfil DEV.to de Andre">DEV</a>
+          <a href={getResumeUrl()} aria-label={`Ver meu ${t("footerResume").toLowerCase()} completo`}>{t("footerResume")}</a>
+          <a href="https://github.com/duarch" aria-label={`Perfil ${t("footerGithub")} de Andre`}>{t("footerGithub")}</a>
+          <a href="https://twitter.com/andrebh" aria-label={`Perfil ${t("footerTwitter")} de Andre`}>{t("footerTwitter")}</a>
+          <a href="https://dev.to/duarch" aria-label={`Perfil ${t("footerDev")} de Andre`}>{t("footerDev")}</a>
         </nav>
       </footer>
     </div>
