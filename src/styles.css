@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Sora:wght@300;400;600&display=swap");
 
 /* ========== ACESSIBILIDADE: Respeitar preferência de movimento reduzido ========== */
@@ -109,8 +110,16 @@ h1 {
   font-size: clamp(2.8rem, 5vw, 4.6rem);
 }
 
+.hero-title {
+  font-family: "Geom", sans-serif;
+}
+
 h2 {
   font-size: clamp(2rem, 3.6vw, 3.2rem);
+}
+
+h3 {
+  font-family: "Geom", sans-serif;
 }
 
 .hero-subtitle {

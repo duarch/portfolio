@@ -75,7 +75,7 @@ Nós usamos [SemVer](http://semver.org/) para versionamento. Para visualizar as 
 
 ## Autores
 
-* **André Duarte** - *- [@duarch](https://github.com/duarch)
+* **André Duarch** - *- [@duarch](https://github.com/duarch)
 
 Veja também a lista completa de [contribuidores](https://github.com/your/project/contributors) que contribuiram para o desenvolvimento deste projeto.
 

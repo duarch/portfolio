@@ -26,7 +26,7 @@ export const getDefaultLanguage = () => {
 export const translations = {
   en: {
     // Header/Hero
-    eyebrow: "DUAR.CH 2026",
+    eyebrow: "André Duarch",
     heroTitle: "I'm the missing piece in your team.",
     heroSubtitle: "Fullstack with product vision, design and automation. I connect the pieces to deliver complete experiences.",
     viewProjects: "View projects",
@@ -166,7 +166,7 @@ export const translations = {
     footerDev: "DEV",
 
     // Resume Page
-    resumeTitle: "Resume - André Duarte",
+    resumeTitle: "Resume - André Duarch",
     resumeBack: "← Back",
     resumeSummary: "Summary",
     resumeAbout: "Fullstack developer with 6+ years of experience building complete solutions—from interfaces to infrastructure. Focused on impact and user experience.",
@@ -181,7 +181,7 @@ export const translations = {
   },
   pt: {
     // Header/Hero
-    eyebrow: "DUAR.CH 2026",
+    eyebrow: "André Duarch",
     heroTitle: "Sou a peça que falta no seu time.",
     heroSubtitle: "Fullstack com visão de produto, design e automação. Eu conecto as peças para entregar experiências completas.",
     viewProjects: "Ver projetos",
@@ -321,7 +321,7 @@ export const translations = {
     footerDev: "DEV",
 
     // Resume Page
-    resumeTitle: "Resume - André Duarte",
+    resumeTitle: "Resume - André Duarch",
     resumeBack: "← Voltar",
     resumeSummary: "Resumo",
     resumeAbout: "Desenvolvedor fullstack com 6+ anos de experiência construindo soluções completas—do frontend até infraestrutura. Focado em impacto e experiência do usuário.",
@@ -336,7 +336,7 @@ export const translations = {
   },
   es: {
     // Header/Hero
-    eyebrow: "DUAR.CH 2026",
+    eyebrow: "André Duarch",
     heroTitle: "Soy la pieza que falta en tu equipo.",
     heroSubtitle: "Fullstack con visión de producto, diseño y automatización. Conecto las piezas para entregar experiencias completas.",
     viewProjects: "Ver proyectos",
@@ -476,7 +476,7 @@ export const translations = {
     footerDev: "DEV",
 
     // Resume Page
-    resumeTitle: "Currículum - André Duarte",
+    resumeTitle: "Currículum - André Duarch",
     resumeBack: "← Volver",
     resumeSummary: "Resumen",
     resumeAbout: "Desarrollador fullstack con 6+ años de experiencia construyendo soluciones completas—desde interfaces hasta infraestructura. Enfocado en impacto y experiencia del usuario.",

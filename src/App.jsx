@@ -132,7 +132,7 @@ export default function App() {
         </div>
         <div className="hero-content">
           <p className="eyebrow">{t("eyebrow")}</p>
-          <h1>{t("heroTitle")}</h1>
+          <h1 className="hero-title">{t("heroTitle")}</h1>
           <p className="hero-subtitle">
             {t("heroSubtitle")}
           </p>
