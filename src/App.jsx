@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PuzzleScene, { puzzlePositions } from "./components/PuzzleScene.jsx";
 import LanguageSwitcher from "./components/LanguageSwitcher.jsx";
 import { useLanguage } from "./contexts/LanguageContext.jsx";
@@ -11,6 +11,7 @@ export default function App() {
   const heroRef = useRef(null);
   const piecesRef = useRef([]);
   const { t, language } = useLanguage();
+  const [showContactOptions, setShowContactOptions] = useState(false);
 
   // Definir URL do currículo baseado no idioma
   const getResumeUrl = () => {
@@ -119,7 +120,7 @@ export default function App() {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [language]);
 
   return (
     <div className="app">
@@ -251,9 +252,14 @@ export default function App() {
           <p>
             {t("contactText")}
           </p>
-          <a className="btn btn-primary" href="mailto:andre@duar.ch" aria-label={`Enviar email para andre@duar.ch`}>
-            {t("contactButton")}
-          </a>
+          <div className="contact-buttons">
+            <a className="btn btn-primary" href="mailto:andre@duar.ch" aria-label={`Enviar email para andre@duar.ch`}>
+              📧 Email
+            </a>
+            <a className="btn btn-primary" href="https://api.whatsapp.com/send?phone=5561920028650&text=👋" target="_blank" rel="noreferrer" aria-label={`Entrar em contato via WhatsApp`}>
+              💬 WhatsApp
+            </a>
+          </div>
         </div>
       </section>
 
@@ -262,7 +268,7 @@ export default function App() {
           <span>{t("copyright")}</span>
         </div>
         <nav className="footer-links" aria-label="Links adicionais e redes sociais">
-          <a href={getResumeUrl()} aria-label={`Ver meu ${t("footerResume").toLowerCase()} completo`}>{t("footerResume")}</a>
+          <a href={getResumeUrl()} aria-label={`Ver meu ${t("curriculum").toLowerCase()} completo`}>{t("curriculum")}</a>
           <a href="https://github.com/duarch" aria-label={`Perfil ${t("footerGithub")} de Andre`}>{t("footerGithub")}</a>
           <a href="https://twitter.com/andrebh" aria-label={`Perfil ${t("footerTwitter")} de Andre`}>{t("footerTwitter")}</a>
           <a href="https://dev.to/duarch" aria-label={`Perfil ${t("footerDev")} de Andre`}>{t("footerDev")}</a>

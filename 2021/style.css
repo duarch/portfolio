@@ -39,7 +39,7 @@ a:visited {
     background-color: #001;
 }
 
-.nav-ul li {
+.nav-ul li:not(:first-child) {
     float: right;
 }
 
@@ -257,6 +257,58 @@ footer {
     z-index: 1;
 }
 
+/* Back button positioning */
+.back-arrow {
+    float: left;
+}
+
+/* Menu Hamburger - Mobile */
+@media (max-width: 768px) {
+    .nav-ul {
+        position: relative;
+    }
+
+    .nav-ul li:not(:first-child):not(.hamburger) {
+        display: none;
+    }
+
+    .nav-ul li:first-child {
+        float: left;
+        width: auto;
+    }
+
+    .nav-ul .hamburger {
+        display: block;
+        float: right;
+        cursor: pointer;
+        padding: 14px 16px;
+    }
+
+    .nav-ul.active li:not(:first-child):not(.hamburger) {
+        display: block;
+        clear: both;
+        text-align: left;
+        width: 100%;
+        float: none;
+    }
+
+    .nav-ul.active li:not(:first-child):not(.hamburger) a {
+        padding: 14px 16px;
+        display: block;
+        text-align: left;
+    }
+
+    .nav-ul.active .hamburger {
+        display: block;
+        float: right;
+        padding: 14px 16px;
+    }
+
+    div h1 {
+        font-size: 3rem;
+    }
+}
+
 @media all and (max-width: 500px) {
     .sample-sec {
         /* On small screens, we are no longer using row direction but column */
@@ -267,9 +319,6 @@ footer {
         width: 80%;
         margin: 0 auto;
         margin-bottom: 25px;
-    }
-    div h1 {
-        font-size: 3rem;
     }
 }
 

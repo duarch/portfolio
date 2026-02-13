@@ -469,6 +469,29 @@ h2 {
   gap: 1.5rem;
 }
 
+.contact-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.contact-buttons .btn {
+  flex: 1;
+  min-width: 150px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .contact-buttons {
+    flex-direction: column;
+  }
+
+  .contact-buttons .btn {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
 .footer {
   display: flex;
   flex-wrap: wrap;
