@@ -2,234 +2,152 @@
 // IMPORTS
 // ==============================
 
-import {
-  useMemo,
-  forwardRef,
-  Suspense
-} from "react";
+import { useMemo, forwardRef, Suspense } from "react";
 
 import * as THREE from "three";
 import { Canvas, useLoader } from "@react-three/fiber";
-import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 
 // ==============================
-// CONSTANTS
+// WORLD CONFIGURATION
+// ==============================
+
+// Controla proporção estrutural real do puzzle
+const PUZZLE_BASE_WIDTH = 12;
+
+// Controla zoom geral do mundo 3D
+const WORLD_SCALE = 5;
+
+// Controla escala do background SVG independente das peças
+const BACKGROUND_SCALE = 3;
+
+// ==============================
+// CONFIGURAÇÃO DAS PEÇAS
 // ==============================
 
 export const puzzlePositions = [
-  { 
-    svg: 1,
-    final: [-5.5, 0.8, 0], 
-    initial: [-7, 3, -2], 
+  {
+    svg: 12,
+    final: [-4.75, -2.599, 0],
+    initial: [-7, 3, -2],
     color: "#3a86ff",
-    scale: 1
+    scale: 0.283,
+    depth: 0.12,
   },
-  { 
-    svg: 4,
-    final: [-5.32, -0.5, 0], 
-    initial: [-8, -2, -1], 
-    color: "#ff6b9d",
-    scale: 1.25
-  },
-  { 
-    svg: 7,
-    final: [-5.5, -2, 0], 
-    initial: [-6, -4, -2], 
+  {
+    svg: 13,
+    final: [5.058, -0.513, 0],
+    initial: [0, 7, 2],
     color: "#3a86ff",
-    scale: 1.23
+    scale: 0.283,
+    depth: 0.12,
   },
-  { 
-    svg: 4,
-    final: [-3.8, 0.8, 0], 
-    initial: [7, 3, -1], 
-    color: "#2ecc71"
-  },
-  { 
-    svg: 5,
-    final: [-3.8, -0.8, 0], 
-    initial: [8, -3, -2], 
-    color: "#2ecc71"
-  },
-  { 
-    svg: 6,
-    final: [-3, -0.8, 0], 
-    initial: [6, -4, -1], 
-    color: "#2ecc71"
-  },
-  { 
-    svg: 7,
-    final: [-1.5, 0.8, 0], 
-    initial: [-2, 5, 2], 
-    color: "#f5f5f5"
-  },
-  { 
-    svg: 8,
-    final: [-1.5, 0, 0], 
-    initial: [-3, -5, 1], 
-    color: "#f5f5f5"
-  },
-  { 
-    svg: 9,
-    final: [-0.7, -0.8, 0], 
-    initial: [2, -5, 2], 
-    color: "#f5f5f5"
-  },
-  { 
-    svg: 1,
-    final: [0.8, 0.8, 0], 
-    initial: [3, 6, -2], 
-    color: "#ff6b6b"
-  },
-  { 
-    svg: 2,
-    final: [0.8, 0, 0], 
-    initial: [4, -6, 1], 
-    color: "#ff6b6b",
-  },
-  { 
-    svg: 3,
-    final: [1.6, -0.8, 0], 
-    initial: [-4, -6, -1], 
-    color: "#ff6b6b"
-    },
-  { 
-    svg: 4,
-    final: [2.8, -0.8, 0], 
-    initial: [0, 7, 2], 
-    color: "#ffd93d"
-  },
-  { 
-    svg: 5,
-    final: [4, 0.8, 0], 
-    initial: [-5, 6, 1], 
-    color: "#6c5ce7"
-  },
-  { 
-    svg: 6,
-    final: [4, 0, 0], 
-    initial: [5, 5, -2], 
-    color: "#6c5ce7"
-  },
-  { 
-    svg: 7,
-    final: [4, -0.8, 0], 
-    initial: [-6, -5, 2], 
-    color: "#6c5ce7"
-  },
-  { 
-    svg: 8,
-    final: [5.5, 0.8, 0], 
-    initial: [9, 4, 1], 
-    color: "#fd79a8"
-  },
-  { 
-    svg: 9,
-    final: [5.5, 0, 0], 
-    initial: [-9, -4, -2], 
-    color: "#fd79a8"
-  },
-  { 
-    svg: 1,
-    final: [6.3, 0.8, 0], 
-    initial: [7, -6, 2], 
-    color: "#fd79a8"
-  },
+  // Adicione as demais seguindo o mesmo padrão
 ];
 
 // ==============================
-// HOOKS
+// HOOK: SVG → TEXTURA
 // ==============================
 
-
-function usePuzzleSVG(index) {
-  const data = useLoader(
-    SVGLoader,
-    `/assets/puzzle_pieces/simple-puzzle-piece-pattern-${index}.svg`
+function useSVGTexture(index) {
+  const texture = useLoader(
+    THREE.TextureLoader,
+    `/assets/puzzle_pieces/simple-puzzle-piece-pattern-${index}.svg`,
   );
 
   return useMemo(() => {
-    console.log(`\n🔍 SVG ${index}: Processando...`);
-    
-    const shapes = [];
+    if (!texture?.image) return null;
 
-    data.paths.forEach((path) => {
-      const pathShapes = SVGLoader.createShapes(path);
-      
-      pathShapes.forEach((shape) => {
-        // ✨ SOLUÇÃO: Remove os holes problemáticos
-        if (shape.holes && shape.holes.length > 0) {
-          console.log(`  ⚠️ SVG ${index}: Removendo ${shape.holes.length} hole(s)`);
-          shape.holes = [];  // ← LIMPA OS HOLES
-        }
-        
-        shapes.push(shape);
-      });
-    });
+    const width = texture.image.width;
+    const height = texture.image.height;
+    const aspectRatio = width / height;
 
-    console.log(`  ✅ SVG ${index}: ${shapes.length} shape(s) processada(s)\n`);
-    return shapes;
-  }, [data, index]);
-}
+    console.log(`✅ SVG ${index} - Dimensões: ${width}x${height}`);
 
-function usePuzzleGeometry(svgIndex, customScale = 1) {
-  const shapes = usePuzzleSVG(svgIndex);
+    texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
+    texture.generateMipmaps = true;
+    texture.needsUpdate = true;
 
-  return useMemo(() => {
-    if (!shapes || shapes.length === 0) return null;
-
-    const extrudeSettings = {
-      depth: 20,
-      bevelEnabled: false,
-    };
-
-    const geometry = new THREE.ExtrudeGeometry(
-      shapes,
-      extrudeSettings
-    );
-
-    const scaleFactor = 0.0035 * customScale; // Ajuste fino para o tamanho das peças
-
-    geometry.scale(scaleFactor, -scaleFactor, scaleFactor);
-    geometry.center();
-
-    return geometry;
-  }, [shapes, customScale]);
+    return { texture, aspectRatio };
+  }, [texture, index]);
 }
 
 // ==============================
-// COMPONENTS
+// HOOK: Plane proporcional global
+// ==============================
+
+function usePlaneForSVG(index) {
+  const svgData = useSVGTexture(index);
+
+  return useMemo(() => {
+    if (!svgData) return null;
+
+    const { aspectRatio, texture } = svgData;
+
+    const height = PUZZLE_BASE_WIDTH / aspectRatio;
+
+    console.log(
+      `📐 SVG ${index} → ${PUZZLE_BASE_WIDTH} x ${height.toFixed(2)}`,
+    );
+
+    const geometry = new THREE.PlaneGeometry(PUZZLE_BASE_WIDTH, height);
+
+    return { geometry, texture };
+  }, [svgData, index]);
+}
+
+// ==============================
+// COMPONENTE: Peça
 // ==============================
 
 const JigsawPiece = forwardRef(
-  ({ svg, color, position, rotation, scale = 1 }, ref) => {
-    const geometry = usePuzzleGeometry(svg, scale);
+  ({ svg, color, initial, scale = 1, depth = 0.1 }, ref) => {
+    const planeData = usePlaneForSVG(svg);
 
-    if (!geometry) return null;
+    if (!planeData) return null;
+
+    const { geometry, texture } = planeData;
 
     return (
-      <mesh
+      <group
         ref={ref}
-        geometry={geometry}
-        position={position}
-        rotation={rotation}
-        castShadow
-        receiveShadow
+        position={initial}
+        scale={scale}
+        rotation={[
+          Math.random() * Math.PI,
+          Math.random() * Math.PI,
+          Math.random() * Math.PI,
+        ]}
       >
-        <meshStandardMaterial
-          color={color}
-          roughness={0.5}
-          metalness={0.05}
-          side={THREE.DoubleSide}      // ← ADICIONE (renderiza ambos lados)
-          emissive={color}             // ← ADICIONE (faz brilhar)
-          emissiveIntensity={0.3}
-          
-        />
-      </mesh>
+        {/* FRENTE */}
+        <mesh
+          geometry={geometry}
+          position={[0, 0, depth / 2]}
+          castShadow
+          receiveShadow
+        >
+          <meshBasicMaterial map={texture} transparent alphaTest={0.09} />
+        </mesh>
+
+        {/* VERSO */}
+        <mesh
+          geometry={geometry}
+          position={[0, 0, -depth / 2]}
+          rotation={[0, Math.PI, 0]}
+          castShadow
+          receiveShadow
+        >
+          <meshStandardMaterial color={color} />
+        </mesh>
+      </group>
     );
-  }
+  },
 );
 
-JigsawPiece.displayName = 'JigsawPiece';
+JigsawPiece.displayName = "JigsawPiece";
+
+// ==============================
+// COMPONENTE: Todas as Peças
+// ==============================
 
 function Pieces({ piecesRef }) {
   return (
@@ -239,17 +157,13 @@ function Pieces({ piecesRef }) {
           key={index}
           svg={data.svg}
           color={data.color}
-          position={data.initial}
-          rotation={[
-            Math.random() * Math.PI,
-            Math.random() * Math.PI,
-            Math.random() * Math.PI,
-          ]}
+          initial={data.initial}
           scale={data.scale || 1}
+          depth={data.depth || 0.1}
           ref={(el) => {
             if (el) {
               piecesRef.current[index] = el;
-              console.log(`[PuzzleScene] Peça ${index} registrada:`, el);
+              console.log(`[PuzzleScene] Peça ${index} registrada`);
             }
           }}
         />
@@ -258,37 +172,68 @@ function Pieces({ piecesRef }) {
   );
 }
 
-// Fallback component
-function LoadingFallback() {
-  return null; // Ou um placeholder se preferir
+// ==============================
+// COMPONENTE: Background
+// ==============================
+
+function BackgroundPattern() {
+  const planeData = usePlaneForSVG(0);
+
+  if (!planeData) return null;
+
+  const { geometry, texture } = planeData;
+
+  return (
+    <mesh
+      geometry={geometry}
+      position={[0, 0, -1]}
+      scale={BACKGROUND_SCALE}
+      receiveShadow
+    >
+      <meshBasicMaterial map={texture} transparent alphaTest={0.09} />
+    </mesh>
+  );
 }
 
 // ==============================
 // MAIN COMPONENT
 // ==============================
 
-// ✅ AGORA RECEBE piecesRef como prop do App.jsx
 export default function PuzzleScene({ piecesRef }) {
-  console.log('[PuzzleScene] Renderizando com piecesRef:', piecesRef);
-
   return (
-    <Canvas camera={{ position: [0, 0, 15], fov: 60 }} shadows>
+    <Canvas
+      camera={{
+        position: [0, 0, 40],
+        fov: 50,
+        aspect: 1816 / 690,
+      }}
+      shadows
+      style={{ width: "100%", height: "100%", display: "block" }}
+      gl={{ preserveDrawingBuffer: true }}
+      onCreated={({ camera, gl }) => {
+        camera.aspect = 1816 / 690;
+        camera.updateProjectionMatrix();
+        gl.setSize(gl.domElement.width, gl.domElement.height, false);
+      }}
+    >
       <color attach="background" args={["#dfd5d5"]} />
 
-      <ambientLight intensity={0.5} />
+      {/* Luzes */}
+      <ambientLight intensity={0.6} />
       <directionalLight
-        position={[10, 10, 5]}
+        position={[20, 20, 10]}
         intensity={1.2}
         castShadow
-      />
-      <pointLight
-        position={[-10, -10, -5]}
-        intensity={0.4}
-        color="#3a86ff"
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
       />
 
-      <Suspense fallback={<LoadingFallback />}>
-        <Pieces piecesRef={piecesRef} />
+      <Suspense fallback={null}>
+        {/* WORLD SCALE CONTROLLER */}
+        <group scale={WORLD_SCALE}>
+          <BackgroundPattern />
+          <Pieces piecesRef={piecesRef} />
+        </group>
       </Suspense>
     </Canvas>
   );

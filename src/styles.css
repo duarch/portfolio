@@ -33,7 +33,9 @@
 
 body {
   font-family: "Sora", sans-serif;
-  background: radial-gradient(circle at 10% 10%, #1c1c1c, #0f0f0f 60%);
+  /* background: radial-gradient(circle at 10% 10%, #1c1c1c, #0f0f0f 60%); */
+  
+  background: radial-gradient(circle at 10% 10%, #002D88, #5B0069 60%);
   color: var(--text-light);
   min-height: 100vh;
   line-height: 1.5;
@@ -75,12 +77,19 @@ a {
 
 .hero-media {
   width: 100%;
-  height: min(70vh, 680px);
+  aspect-ratio: 1816 / 690;
+  max-height: 680px;
   border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
   background: linear-gradient(150deg, #121212, #0a0a0a);
+}
+
+.hero-media canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
 .hero-content {
