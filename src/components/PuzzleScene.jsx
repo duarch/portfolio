@@ -65,6 +65,7 @@ function useSVGTexture(index) {
 
     texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
     texture.generateMipmaps = true;
+    texture.colorSpace = THREE.SRGBColorSpace;
     texture.needsUpdate = true;
 
     return { texture, aspectRatio };
