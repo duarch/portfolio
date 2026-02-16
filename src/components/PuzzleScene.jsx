@@ -61,8 +61,6 @@ function useSVGTexture(index) {
     const height = texture.image.height;
     const aspectRatio = width / height;
 
-    console.log(`✅ SVG ${index} - Dimensões: ${width}x${height}`);
-
     texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
     texture.generateMipmaps = true;
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -85,10 +83,6 @@ function usePlaneForSVG(index) {
     const { aspectRatio, texture } = svgData;
 
     const height = PUZZLE_BASE_WIDTH / aspectRatio;
-
-    console.log(
-      `📐 SVG ${index} → ${PUZZLE_BASE_WIDTH} x ${height.toFixed(2)}`,
-    );
 
     const geometry = new THREE.PlaneGeometry(PUZZLE_BASE_WIDTH, height);
 
@@ -164,7 +158,6 @@ function Pieces({ piecesRef }) {
           ref={(el) => {
             if (el) {
               piecesRef.current[index] = el;
-              console.log(`[PuzzleScene] Peça ${index} registrada`);
             }
           }}
         />

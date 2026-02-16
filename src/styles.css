@@ -81,15 +81,15 @@ a {
   max-height: 680px;
   border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
-  background: linear-gradient(150deg, #121212, #0a0a0a);
+  /* border: 1px solid rgba(255, 255, 255, 0.08); */
+  /* box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45); */
+  /* background: linear-gradient(150deg, #121212, #0a0a0a); */
 }
 
 .hero-media canvas {
   width: 100% !important;
   height: 100% !important;
-  display: block;
+  /* display: block; */
 }
 
 .hero-content {
@@ -542,9 +542,9 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .hero-media {
+  /* .hero-media {
     height: 420px;
-  }
+  } */
 
   .project-card {
     grid-template-columns: 1fr;
