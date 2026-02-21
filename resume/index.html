@@ -22,7 +22,7 @@
         const lang =
           localStorage.getItem("language") ||
           navigator.language?.split("-")[0] ||
-          "pt";
+          "en";
 
         // Mapa de linguagem para diretório
         const langMap = {
@@ -31,17 +31,19 @@
           es: "/resume/es/",
         };
 
-        const target = langMap[lang] || "/resume/pt/";
+        const target = langMap[lang] || "/resume/en/";
         window.location.href = target;
       })();
     </script>
   </head>
   <body>
-    <!-- Fallback caso JavaScript esteja desabilitado - mostra versão em PT -->
+    <!-- Fallback caso JavaScript esteja desabilitado - mostra versão em EN -->
     <div style="font-family: sans-serif; padding: 2rem; text-align: center">
       <p>Redirecionando...</p>
       <p>
-        <a href="/">Clique aqui se a página não redirecionar automaticamente</a>
+        <a href="/resume/en/">
+          Clique aqui se a página não redirecionar automaticamente
+        </a>
       </p>
     </div>
   </body>

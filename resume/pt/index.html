@@ -1,25 +1,28 @@
-  </body>
-</html>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta
       name="description"
-      content="Resume/CV de André Duarch - Desenvolvedor Fullstack com experiência em Angular, Node.js e Web Development"
+      content="Currículo de André Luiz Duarte Oliveira - Engenheiro de Software com foco em Frontend, IA e Sistemas Full Stack"
     />
     <meta name="theme-color" content="#0f0f0f" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:url" content="https://duar.ch/resume/" />
-    <meta property="og:title" content="Resume - André Duarch" />
+    <meta property="og:url" content="https://duar.ch/resume/pt/" />
+    <meta
+      property="og:title"
+      content="Currículo - André Luiz Duarte Oliveira"
+    />
     <meta property="og:site_name" content="duar.ch" />
     <meta property="og:type" content="website" />
-    <link rel="canonical" href="https://duar.ch/resume/" />
-    <title>Resume - André Duarch</title>
+    <link rel="canonical" href="https://duar.ch/resume/pt/" />
+    <title>Currículo - André Luiz Duarte Oliveira</title>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900&display=swap");
       @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Sora:wght@300;400;600&display=swap");
 
-      /* ========== ACESSIBILIDADE: Respeitar preferência de movimento reduzido ========== */
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -34,13 +37,9 @@
       :root {
         color-scheme: light dark;
         --bg-dark: #0f0f0f;
-        --bg-light: #f5f5f5;
-        --text-dark: #0f0f0f;
         --text-light: #f5f5f5;
         --accent-blue: #3a86ff;
-        --accent-green: #2ecc71;
         --muted: #c9c9c9;
-        --radius: 24px;
       }
 
       * {
@@ -63,17 +62,17 @@
       }
 
       .container {
-        max-width: 900px;
+        max-width: 980px;
         margin: 0 auto;
-        padding: 4rem clamp(2rem, 6vw, 8rem);
+        padding: 3rem clamp(1.4rem, 5vw, 5rem);
       }
 
       header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 3rem;
-        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1.2rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
 
@@ -81,125 +80,72 @@
         background: #222;
         color: var(--text-light);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 0.6rem 1.2rem;
+        padding: 0.55rem 1rem;
         border-radius: 8px;
         font-weight: 600;
-        transition: all 0.3s ease;
+        transition: all 0.25s ease;
         cursor: pointer;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
       }
 
       .back-btn:hover {
         background: #333;
-        border-color: rgba(255, 255, 255, 0.4);
       }
 
       h1 {
         font-family: "Geom", sans-serif;
-        font-size: 2.5rem;
-        margin-bottom: 2rem;
+        font-size: clamp(1.6rem, 4vw, 2.3rem);
       }
 
       h2 {
         font-family: "Geom", sans-serif;
-        font-size: 1.8rem;
-        margin-top: 2.5rem;
-        margin-bottom: 1.5rem;
+        font-size: clamp(1.2rem, 3vw, 1.55rem);
+        margin-top: 2rem;
+        margin-bottom: 0.9rem;
         color: var(--accent-blue);
       }
 
       h3 {
-        font-family: "Geom", sans-serif;
-        font-size: 1.2rem;
-        margin-top: 1.5rem;
-        margin-bottom: 0.8rem;
-        color: var(--text-light);
+        font-size: 1.05rem;
+        margin-top: 1rem;
+        margin-bottom: 0.45rem;
       }
 
       p {
-        margin-bottom: 1rem;
-      }
-
-      ul {
-        margin-left: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      li {
-        margin-bottom: 0.5rem;
-        color: var(--text-light);
-      }
-
-      .section {
-        margin-bottom: 2rem;
-      }
-
-      .job {
-        margin-bottom: 1.5rem;
-        padding-left: 1.5rem;
-        border-left: 2px solid var(--accent-blue);
-      }
-
-      .job-title {
-        font-weight: 600;
-        color: var(--accent-blue);
-        margin-bottom: 0.3rem;
-      }
-
-      .job-company {
-        color: var(--muted);
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .contact-list {
-        list-style: none;
-        margin-left: 0;
-      }
-
-      .contact-list li {
         margin-bottom: 0.8rem;
       }
 
-      .contact-list a {
-        color: var(--accent-blue);
-        font-weight: 600;
+      ul {
+        margin-left: 1.2rem;
+        margin-bottom: 0.8rem;
       }
 
-      .contact-list a:hover {
-        text-decoration: underline;
+      li {
+        margin-bottom: 0.35rem;
+      }
+
+      .meta {
+        color: var(--muted);
+      }
+
+      .job {
+        margin-bottom: 1rem;
+        padding-left: 1rem;
+        border-left: 2px solid var(--accent-blue);
       }
 
       footer {
-        margin-top: 4rem;
-        padding-top: 2rem;
+        margin-top: 2.2rem;
+        padding-top: 1.2rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        text-align: center;
         color: var(--muted);
         font-size: 0.9rem;
       }
 
-      @media (max-width: 600px) {
-        h1 {
-          font-size: 1.8rem;
-        }
-
-        h2 {
-          font-size: 1.4rem;
-        }
-
+      @media (max-width: 680px) {
         header {
           flex-direction: column;
-          gap: 1rem;
           align-items: flex-start;
-        }
-
-        .back-btn {
-          width: 100%;
-          justify-content: center;
+          gap: 0.8rem;
         }
       }
     </style>
@@ -207,181 +153,188 @@
   <body>
     <div class="container">
       <header>
-        <h1>André Duarch</h1>
+        <h1>André Luiz Duarte Oliveira</h1>
         <a href="/" class="back-btn">← Voltar</a>
       </header>
 
-      <section class="section">
+      <section>
         <p>
-          <strong>Dev</strong>
-          • Brasília, DF, Brasil
+          <strong>Engenheiro de Software</strong>
+          • Frontend, IA e Sistemas Full Stack
+        </p>
+        <p class="meta">
+          Brasília-DF, Brasil • andre@duar.ch • +55 61 92002 8650 • duar.ch •
+          github.com/duarch • linkedin.com/in/andreduarte
         </p>
       </section>
 
-      <section class="section">
-        <h2>📄 Resumo</h2>
+      <section>
+        <h2>Resumo Profissional</h2>
+        <p>
+          Desenvolvedor Full Stack no Banco do Brasil, com mais de 25 anos de
+          experiência profissional e mais de 2 anos dedicados à engenharia de
+          software backend e full stack. Lidera projetos de grande porte de
+          ponta a ponta, do design de UX e arquitetura de APIs ao modelagem de
+          banco de dados, pipelines de CI/CD e deploys containerizados.
+        </p>
+        <p>
+          Sólida experiência em Node.js, Python, TypeScript, Angular,
+          PostgreSQL/MySQL, Docker e GitLab CI/CD, além de atuação em ETL/BI com
+          SAS, Power BI e IBM DB2. Atualmente cursa MBA em Data Analytics & Big
+          Data e graduação em Análise e Desenvolvimento de Sistemas.
+        </p>
+      </section>
+
+      <section>
+        <h2>Competências Técnicas</h2>
+        <h3>Linguagens e Runtimes</h3>
+        <p>TypeScript, JavaScript, Node.js, Python, Go, Shell Script</p>
+        <h3>Frontend</h3>
+        <p>Angular, PrimeNG, React, Tailwind CSS, HTML/CSS</p>
+        <h3>Bancos de Dados</h3>
+        <p>PostgreSQL, MySQL, IBM DB2, Redis, NoSQL</p>
+        <h3>IA e Dados</h3>
+        <p>
+          Machine Learning (scikit-learn), Apache Airflow, Power BI, SAS
+          Enterprise Guide e Python para Data Science
+        </p>
+        <h3>DevOps e Infraestrutura</h3>
+        <p>Docker, Docker Compose, Docker Swarm, Portainer, GitLab CI/CD</p>
+      </section>
+
+      <section>
+        <h2>Experiência Profissional</h2>
+
+        <article class="job">
+          <h3>Desenvolvedor Full Stack (Assessor III UE) • Banco do Brasil</h3>
+          <p class="meta">dez 2023 – atual • Brasília, Brasil (híbrido)</p>
+          <ul>
+            <li>
+              Arquitetou e entregou aplicações internas de grande porte de ponta
+              a ponta: UX/UI, segurança, APIs REST, modelagem MySQL/PostgreSQL,
+              frontends em Angular e GitLab CI/CD.
+            </li>
+            <li>
+              Estruturou ambientes produtivos containerizados com Docker Compose
+              e Docker Swarm (Portainer), aumentando confiabilidade e
+              escalabilidade.
+            </li>
+            <li>
+              Desenvolveu dashboards em Power BI conectados ao IBM DB2 e
+              desenhou fluxos de ETL no SAS Enterprise Guide.
+            </li>
+          </ul>
+        </article>
+
+        <article class="job">
+          <h3>Agente Comercial • Banco do Brasil</h3>
+          <p class="meta">set 2016 – dez 2023 • Brasil</p>
+          <ul>
+            <li>
+              Geriu carteiras de clientes pessoa física, jurídica e agronegócio
+              com soluções financeiras personalizadas.
+            </li>
+            <li>
+              Automatizou fluxos e relatórios enquanto concluía 50+ cursos em
+              programação, dados, UX e engenharia.
+            </li>
+          </ul>
+        </article>
+
+        <article class="job">
+          <h3>Gerente de Agência • Banco do Brasil</h3>
+          <p class="meta">jan 2012 – set 2016 • Brasil</p>
+          <ul>
+            <li>
+              Liderou mais de 15 profissionais em operações e planejamento
+              estratégico, melhorando eficiência e satisfação do cliente.
+            </li>
+          </ul>
+        </article>
+
+        <article class="job">
+          <h3>Gerente de Equipe de Atendimento • Banco do Brasil</h3>
+          <p class="meta">jan 2003 – dez 2011 • Brasil</p>
+          <ul>
+            <li>
+              Geriu equipes de atendimento e metas de serviço com monitoramento
+              operacional orientado por dados.
+            </li>
+          </ul>
+        </article>
+      </section>
+
+      <section>
+        <h2>Projetos Open Source e Pessoais</h2>
+        <h3>Persiga</h3>
+        <p>
+          Jogo inspirado em Wordle, desenvolvido com React, TypeScript e
+          Tailwind CSS, com containerização em Docker. Entrega ponta a ponta, da
+          lógica do jogo ao deploy em produção.
+        </p>
+        <h3>WallSpot</h3>
+        <p>
+          Utilitário em Go que reutiliza imagens do Windows Spotlight como papel
+          de parede, destacando interesse em múltiplas linguagens e programação
+          de sistemas.
+        </p>
+        <p>GitHub: 56 repositórios públicos • Arctic Code Vault Contributor</p>
+      </section>
+
+      <section>
+        <h2>Formação Acadêmica</h2>
         <ul>
           <li>
-            Possui sólida experiência no ambiente bancário, com 26 anos de
-            atuação no Banco do Brasil em diversos cargos.
+            Graduação em Análise e Desenvolvimento de Sistemas (em andamento) •
+            UniCV • 2025–atual
           </li>
           <li>
-            Está construindo um novo caminho de carreira voltado para o
-            Desenvolvimento Web fullstack.
+            MBA em Data Analytics & Big Data (em andamento) • Faculdade
+            Alphaville • 2026–atual
           </li>
+          <li>
+            Pós-graduação em Engenharia de Software • Faculdade Alphaville •
+            2025–2026
+          </li>
+          <li>MBA em Administração de Empresas • FIJ • 2010</li>
+          <li>Bacharelado em Administração • UNIFEMM • 2001–2005</li>
         </ul>
       </section>
 
-      <section class="section">
-        <h2>🛠 Habilidades e Idiomas</h2>
-
-        <h3>Principais Competências</h3>
-        <ul>
-          <li>Angular</li>
-          <li>Node.js</li>
-          <li>React</li>
-          <li>Full Stack Development</li>
-        </ul>
-
-        <h3>Idiomas</h3>
+      <section>
+        <h2>Aprendizado Contínuo (Seleção)</h2>
         <ul>
           <li>
-            <strong>Português:</strong>
-            Nativo
+            Harvard CS50: CS50x, CS50’s Understanding Technology e CS50 Python
           </li>
           <li>
-            <strong>Inglês:</strong>
-            Bilíngue
+            IA e ML: scikit-learn, Statistics with Python, IA Generativa e
+            orquestração de pipelines com Airflow
           </li>
           <li>
-            <strong>Libras:</strong>
-            Profissional
+            Engenharia e DevOps: TypeScript, Angular, API REST com Go e métricas
+            ágeis
           </li>
           <li>
-            <strong>Espanhol:</strong>
-            Profissional
+            UX e Design: UX Research, fundamentos de UX/UI e layouts responsivos
           </li>
         </ul>
       </section>
 
-      <section class="section">
-        <h2>💼 Experiência Profissional</h2>
-
-        <div class="job">
-          <div class="job-title">Assessor III UE (Full Stack Developer)</div>
-          <div class="job-company">
-            Banco do Brasil • Dezembro de 2023 – Presente (2 anos)
-          </div>
-          <p>Brasília, DF</p>
-        </div>
-
-        <div class="job">
-          <div class="job-title">Agente Comercial</div>
-          <div class="job-company">
-            Banco do Brasil • Setembro de 2016 – Dezembro de 2023 (7 anos)
-          </div>
-        </div>
-
-        <div class="job">
-          <div class="job-title">Gerente de Agência</div>
-          <div class="job-company">
-            Banco do Brasil • Janeiro de 2012 – Setembro de 2016 (4 anos)
-          </div>
-        </div>
-
-        <div class="job">
-          <div class="job-title">
-            Gerente de Equipe de Atendimento ao Cliente
-          </div>
-          <div class="job-company">
-            Banco do Brasil • Janeiro de 2003 – Dezembro de 2011 (9 anos)
-          </div>
-        </div>
-
-        <div class="job">
-          <div class="job-title">Escriturário</div>
-          <div class="job-company">
-            Banco do Brasil • Março de 2000 – 2003 (3 anos)
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>🎓 Formação Acadêmica</h2>
-
-        <div class="job">
-          <div class="job-title">
-            MBA em Administração e Gerenciamento de Negócios
-          </div>
-          <div class="job-company">
-            FIJ - Faculdades Integradas de Jacarepaguá • 2010
-          </div>
-        </div>
-
-        <div class="job">
-          <div class="job-title">Especialização em Finanças</div>
-          <div class="job-company">
-            Universidade Federal de Minas Gerais • 2007-2008
-          </div>
-        </div>
-
-        <div class="job">
-          <div class="job-title">Bacharelado em Administração de Empresas</div>
-          <div class="job-company">
-            UNIFEMM - Centro Universitário de Sete Lagoas • 2001-2005
-          </div>
-        </div>
-
-        <div class="job">
-          <div class="job-title">Inglês</div>
-          <div class="job-company">Oxford English Centre • 2003</div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>📜 Certificações</h2>
+      <section>
+        <h2>Idiomas e Certificações</h2>
         <ul>
-          <li>Design Gráfico</li>
-          <li>Acessibilidade Web</li>
-          <li>HTML para Designers</li>
-          <li>Gestão de Crédito</li>
-          <li>GO: Desenvolvendo uma API REST</li>
+          <li>Inglês: C1 (Cambridge Linguaskill, jan 2026)</li>
+          <li>
+            Espanhol: B1 certificado (estimativa de proficiência de trabalho C1)
+          </li>
+          <li>Português: nativo</li>
+          <li>Japonês: iniciante (estudando atualmente)</li>
+          <li>LIBRAS: intermediário</li>
         </ul>
       </section>
 
-      <section class="section">
-        <h2>📞 Contato</h2>
-        <ul class="contact-list">
-          <li>
-            <strong>Telefone:</strong>
-            +55 (61) 92002-8650
-          </li>
-          <li>
-            <strong>E-mail:</strong>
-            <a href="mailto:andre.bh@hotmail.com">andre.bh@hotmail.com</a>
-          </li>
-          <li>
-            <strong>LinkedIn:</strong>
-            <a
-              href="https://linkedin.com/in/andreduarte"
-              target="_blank"
-              rel="noreferrer"
-            >
-              linkedin.com/in/andreduarte
-            </a>
-          </li>
-          <li>
-            <strong>Portfolio:</strong>
-            <a href="https://duar.ch" target="_blank" rel="noreferrer">
-              duar.ch
-            </a>
-          </li>
-        </ul>
-      </section>
-
-      <footer>
-        <p>© 2026 André Duarch • Full Stack Developer</p>
-      </footer>
+      <footer>Atualizado com a versão do currículo: fevereiro de 2026</footer>
     </div>
   </body>
 </html>
