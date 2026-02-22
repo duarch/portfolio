@@ -11,14 +11,11 @@
     <meta name="theme-color" content="#0f0f0f" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:url" content="https://duar.ch/resume/pt/" />
-    <meta
-      property="og:title"
-      content="Currículo - André Luiz Duarte Oliveira"
-    />
+    <meta property="og:title" content="Currículo - Duarch" />
     <meta property="og:site_name" content="duar.ch" />
     <meta property="og:type" content="website" />
     <link rel="canonical" href="https://duar.ch/resume/pt/" />
-    <title>Currículo - André Luiz Duarte Oliveira</title>
+    <title>Currículo - Duarch</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900&display=swap");
       @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Sora:wght@300;400;600&display=swap");
@@ -74,6 +71,28 @@
         margin-bottom: 2rem;
         padding-bottom: 1.2rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        align-items: center;
+      }
+
+      .download-btn {
+        background: var(--accent-blue);
+        color: #0f0f0f;
+        border: 1px solid transparent;
+        padding: 0.55rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        cursor: pointer;
+      }
+
+      .download-btn:hover {
+        filter: brightness(1.08);
       }
 
       .back-btn {
@@ -153,18 +172,27 @@
   <body>
     <div class="container">
       <header>
-        <h1>André Luiz Duarte Oliveira</h1>
-        <a href="/" class="back-btn">← Voltar</a>
+        <div class="header-actions">
+          <a
+            href="/resume/files/Duarch_Resume_PT_BR.pdf"
+            class="download-btn"
+            download
+          >
+            Baixar PDF
+          </a>
+          <a href="/" class="back-btn">← Voltar</a>
+        </div>
       </header>
 
       <section>
+        <h1>Duarch</h1>
+        <h2>André Luiz Duarte Oliveira</h2>
         <p>
-          <strong>Engenheiro de Software</strong>
-          • Frontend, IA e Sistemas Full Stack
+          <strong>Engenheiro de Software Full Stack</strong>
         </p>
         <p class="meta">
-          Brasília-DF, Brasil • andre@duar.ch • +55 61 92002 8650 • duar.ch •
-          github.com/duarch • linkedin.com/in/andreduarte
+          duar.ch • github.com/duarch • linkedin.com/in/andreduarte </br>Brasília-DF,
+          Brazil • andre@duar.ch • +55 61 92002-8650
         </p>
       </section>
 
@@ -192,11 +220,11 @@
         <h3>Frontend</h3>
         <p>Angular, PrimeNG, React, Tailwind CSS, HTML/CSS</p>
         <h3>Bancos de Dados</h3>
-        <p>PostgreSQL, MySQL, IBM DB2, Redis, NoSQL</p>
+        <p>PostgreSQL, MySQL, IBM DB2</p>
         <h3>IA e Dados</h3>
         <p>
-          Machine Learning (scikit-learn), Apache Airflow, Power BI, SAS
-          Enterprise Guide e Python para Data Science
+          Apache Airflow, Power BI, SAS
+          Enterprise Guide e Jupyter Notebook
         </p>
         <h3>DevOps e Infraestrutura</h3>
         <p>Docker, Docker Compose, Docker Swarm, Portainer, GitLab CI/CD</p>

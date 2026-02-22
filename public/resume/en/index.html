@@ -73,6 +73,28 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
 
+      .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        align-items: center;
+      }
+
+      .download-btn {
+        background: var(--accent-blue);
+        color: #0f0f0f;
+        border: 1px solid transparent;
+        padding: 0.55rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        cursor: pointer;
+      }
+
+      .download-btn:hover {
+        filter: brightness(1.08);
+      }
+
       .back-btn {
         background: #222;
         color: var(--text-light);
@@ -151,11 +173,23 @@
     <div class="container">
       <header>
         <h1>André Luiz Duarte Oliveira</h1>
-        <a href="/" class="back-btn">← Back</a>
+        <div class="header-actions">
+          <a
+            href="/resume/files/Duarch_Resume_EN.pdf"
+            class="download-btn"
+            download
+          >
+            Download PDF
+          </a>
+          <a href="/" class="back-btn">← Back</a>
+        </div>
       </header>
 
       <section>
-        <p><strong>Software Engineer</strong> • Frontend, AI & Full-Stack Systems</p>
+        <p>
+          <strong>Software Engineer</strong>
+          • Frontend, AI & Full-Stack Systems
+        </p>
         <p class="meta">
           Brasília-DF, Brazil • andre@duar.ch • +55 61 92002 8650 • duar.ch •
           github.com/duarch • linkedin.com/in/andreduarte
@@ -168,13 +202,13 @@
           Full Stack Developer at Banco do Brasil with 25+ years of professional
           experience and 2+ years dedicated to backend and full-stack software
           engineering. Owns large-scale projects end-to-end from UX design and
-          API architecture to database design, CI/CD pipelines, and containerized
-          deployments.
+          API architecture to database design, CI/CD pipelines, and
+          containerized deployments.
         </p>
         <p>
           Deep expertise in Node.js, Python, TypeScript, Angular,
-          PostgreSQL/MySQL, Docker, and GitLab CI/CD, plus ETL/BI experience with
-          SAS, Power BI, and IBM DB2. Currently pursuing an MBA in Data
+          PostgreSQL/MySQL, Docker, and GitLab CI/CD, plus ETL/BI experience
+          with SAS, Power BI, and IBM DB2. Currently pursuing an MBA in Data
           Analytics & Big Data and a B.S. in Systems Analysis & Development.
         </p>
       </section>
@@ -209,12 +243,13 @@
               Angular frontends, and GitLab CI/CD.
             </li>
             <li>
-              Built containerized production environments with Docker Compose and
-              Docker Swarm (Portainer), improving reliability and scalability.
+              Built containerized production environments with Docker Compose
+              and Docker Swarm (Portainer), improving reliability and
+              scalability.
             </li>
             <li>
-              Developed Power BI dashboards connected to IBM DB2 and designed ETL
-              workflows in SAS Enterprise Guide.
+              Developed Power BI dashboards connected to IBM DB2 and designed
+              ETL workflows in SAS Enterprise Guide.
             </li>
           </ul>
         </article>
