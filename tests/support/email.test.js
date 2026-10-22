@@ -94,7 +94,7 @@ describe('transactional email', () => {
 
   it('sends Resend Reply-To, HTML/text and stable idempotency key without tracking flags', async () => {
     const fetchImpl = vi.fn(async () => new Response('{}', { status: 200 }));
-    const provider = new ResendEmailProvider({ ...env, RESEND_API_KEY: 'test-placeholder' }, { fetchImpl });
+    const provider = new ResendEmailProvider({ ...env, RESEND_API_KEY: 're_test_key_with_enough_characters' }, { fetchImpl });
     const message = await renderEmail({ kind: 'internal' }, sampleTicket(), null, storage, env);
     await provider.send(message, { idempotencyKey: 'support/job-id' });
     const [url, init] = fetchImpl.mock.calls[0];
@@ -102,5 +102,32 @@ describe('transactional email', () => {
     expect(init.headers['Idempotency-Key']).toBe('support/job-id');
     expect(JSON.parse(init.body)).toMatchObject({ reply_to: 'ana@example.test', text: expect.any(String), html: expect.any(String) });
     expect(init.body).not.toMatch(/track_opens|track_clicks/);
+  });
+
+  it('invokes an injected Web API fetch with the global receiver', async () => {
+    const fetchImpl = vi.fn(function () {
+      if (this !== globalThis) throw new TypeError('Illegal invocation');
+      return Promise.resolve(new Response('{}', { status: 200 }));
+    });
+    const provider = new ResendEmailProvider({ ...env, RESEND_API_KEY: 're_test_key_with_enough_characters' }, { fetchImpl });
+    await provider.send({ subject: 'test' }, { idempotencyKey: 'test' });
+    expect(fetchImpl).toHaveBeenCalledOnce();
+  });
+
+  it('logs only a safe reason when the Resend fetch throws', async () => {
+    const fetchImpl = vi.fn(async () => { throw new TypeError('private runtime detail'); });
+    const provider = new ResendEmailProvider({ ...env, RESEND_API_KEY: 're_test_key_with_enough_characters' }, { fetchImpl });
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    await expect(provider.send({ subject: 'test' }, { idempotencyKey: 'test' })).rejects.toMatchObject({ code: 'EMAIL_NETWORK' });
+    expect(error).toHaveBeenCalledWith('support_email_provider_fetch_failed', JSON.stringify({ reason: 'TYPE_ERROR' }));
+    expect(JSON.stringify(error.mock.calls)).not.toContain('private runtime detail');
+    error.mockRestore();
+  });
+
+  it('rejects malformed Resend secrets before fetch', async () => {
+    const fetchImpl = vi.fn();
+    const provider = new ResendEmailProvider({ ...env, RESEND_API_KEY: 'invalid\nkey' }, { fetchImpl });
+    await expect(provider.send({ subject: 'test' })).rejects.toMatchObject({ code: 'EMAIL_CONFIGURATION' });
+    expect(fetchImpl).not.toHaveBeenCalled();
   });
 });

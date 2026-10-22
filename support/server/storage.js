@@ -11,7 +11,8 @@ export class R2Storage {
     this.bucket = env.R2_BUCKET;
     this.binding = env.ATTACHMENTS;
     this.endpoint = endpoint;
-    this.fetchImpl = fetchImpl;
+    // Preserve the receiver expected by the runtime's global fetch implementation.
+    this.fetchImpl = fetchImpl.bind(globalThis);
     this.client = endpoint && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY
       ? new AwsClient({ accessKeyId: env.R2_ACCESS_KEY_ID, secretAccessKey: env.R2_SECRET_ACCESS_KEY, service: 's3', region: 'auto' })
       : null;

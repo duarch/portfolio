@@ -5,6 +5,13 @@ import { apps } from '../shared/schema.js';
 import { sha256 } from './security.js';
 
 const dictionaries = { en, 'pt-BR': ptBR, es };
+const resendKeyPattern = /^re_[A-Za-z0-9_-]{20,}$/;
+
+export function resendConfiguration(env) {
+  const key = env?.RESEND_API_KEY;
+  return { configured: typeof key === 'string' && key.length > 0, validFormat: resendKeyPattern.test(key || '') };
+}
+
 export function translate(locale, key, variables = {}) {
   const value = dictionaries[locale]?.[key] ?? en[key] ?? key;
   return value.replace(/\{(\w+)\}/g, (_, name) => String(variables[name] ?? ''));
@@ -16,11 +23,16 @@ export const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g,
 export class ResendEmailProvider {
   constructor(env, { fetchImpl = fetch } = {}) {
     this.env = env;
-    this.fetchImpl = fetchImpl;
+    // Some Worker runtimes validate the Web API receiver. Binding prevents a
+    // stored global fetch from being invoked with this provider as its receiver.
+    this.fetchImpl = fetchImpl.bind(globalThis);
   }
 
   async send(message, { idempotencyKey } = {}) {
-    if (!this.env.RESEND_API_KEY) throw Object.assign(new Error('Email unavailable'), { code: 'EMAIL_CONFIGURATION' });
+    const configuration = resendConfiguration(this.env);
+    if (!configuration.configured || !configuration.validFormat) {
+      throw Object.assign(new Error('Email unavailable'), { code: 'EMAIL_CONFIGURATION' });
+    }
     let response;
     try {
       response = await this.fetchImpl('https://api.resend.com/emails', {
@@ -33,7 +45,11 @@ export class ResendEmailProvider {
       // Tracking stays disabled on the verified Resend domain. No tracking options or pixels.
       body: JSON.stringify(message),
       });
-    } catch {
+    } catch (error) {
+      const reason = error?.name === 'TypeError' ? 'TYPE_ERROR'
+        : error?.name === 'AbortError' ? 'ABORT_ERROR' : 'FETCH_ERROR';
+      const causeCode = /^[A-Z0-9_]{1,60}$/.test(error?.cause?.code || '') ? error.cause.code : undefined;
+      console.error('support_email_provider_fetch_failed', JSON.stringify({ reason, causeCode }));
       throw Object.assign(new Error('Email provider unavailable'), { code: 'EMAIL_NETWORK' });
     }
     if (!response.ok) {
