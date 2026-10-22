@@ -1,6 +1,6 @@
 import { MIME_TYPES } from '../shared/config.js';
-import { ticketSchema, uploadRequestSchema, statusSchema, protocolSchema } from '../shared/schema.js';
-import { deliverPendingEmails } from './email.js';
+import { ticketSchema, uploadRequestSchema, statusSchema, protocolSchema, retryEmailsSchema } from '../shared/schema.js';
+import { deliverPendingEmails, resendConfiguration } from './email.js';
 import { SupportError, readJson, rateLimit, sha256, uploadProof, verifyUploadProof, usesMocks } from './security.js';
 import { validateStoredUpload } from './storage.js';
 
@@ -134,7 +134,8 @@ export async function changeStatus(request, env, runtime) {
 }
 
 export async function retryEmails(request, env, runtime) {
-  return deliverPendingEmails(runtime.repo, runtime.storage, runtime.emailProvider, { limit: 3 });
+  const data = parse(retryEmailsSchema, await readJson(request, 4096));
+  return deliverPendingEmails(runtime.repo, runtime.storage, runtime.emailProvider, { protocol: data.protocol, limit: 3 });
 }
 
 export async function attachmentLinks(request, env, runtime) {
@@ -148,5 +149,5 @@ export async function diagnostics(request, env, runtime) {
   const protocol = parse(protocolSchema, new URL(request.url).searchParams.get('protocol'));
   const result = await runtime.repo.supportDiagnostics(protocol);
   if (!result) throw new SupportError('notFound', 404);
-  return result;
+  return { ...result, resend: resendConfiguration(env) };
 }

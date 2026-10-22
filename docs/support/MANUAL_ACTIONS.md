@@ -173,7 +173,7 @@ Execute este checklist na raiz do repositório e na ordem abaixo. **Os comandos 
     "$SUPPORT_API_BASE/api/support/admin/retry-emails" \
     --header "Authorization: Bearer $SUPPORT_ADMIN_TOKEN" \
     --header 'Content-Type: application/json' \
-    --data '{}'
+    --data "{\"protocol\":\"$SUPPORT_PROTOCOL\"}"
 
   unset SUPPORT_ADMIN_TOKEN SUPPORT_API_BASE SUPPORT_PROTOCOL
   ```

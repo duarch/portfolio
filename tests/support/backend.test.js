@@ -7,6 +7,7 @@ import { R2Storage } from '../../support/server/storage.js';
 import { CONSENT_VERSION } from '../../support/shared/config.js';
 import { verifyTurnstile, usesMocks } from '../../support/server/security.js';
 import { renderMarkdown } from '../../support/build/renderMarkdown.js';
+import { sampleTicket } from './helpers.js';
 
 // Run the real migration and repository SQL, while replacing only the D1 transport.
 class SQLiteD1 {
@@ -157,6 +158,17 @@ describe('support ticket persistence and attachment flow', () => {
     const response = await handle(request('admin/retry-emails', {}, { admin: true }), env);
     expect(await response.json()).toMatchObject({ sent: 2, failed: 0 });
     expect(await runtime.repo.listPendingEmailJobs()).toHaveLength(0);
+  });
+
+  it('retries email jobs for one selected protocol', async () => {
+    runtime.emailProvider.send.mockRejectedValue(Object.assign(new Error('Provider unavailable'), { code: 'EMAIL_NETWORK' }));
+    expect((await submit(validTicket())).status).toBe(201);
+    await runtime.repo.saveTicket(sampleTicket({ protocol: 'DUAR-2026-000002' }), [], crypto.randomUUID());
+    runtime.emailProvider.send.mockResolvedValue(undefined);
+    const response = await handle(request('admin/retry-emails', { protocol }, { admin: true }), env);
+    expect(await response.json()).toMatchObject({ sent: 2, failed: 0 });
+    expect(await runtime.repo.listPendingEmailJobs({ protocol })).toHaveLength(0);
+    expect(await runtime.repo.listPendingEmailJobs({ protocol: 'DUAR-2026-000002' })).toHaveLength(2);
   });
 
   it('does not duplicate tickets or emails when a successful request is retried', async () => {

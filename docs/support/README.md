@@ -155,10 +155,10 @@ curl --fail-with-body --request POST \
   "$SUPPORT_API_BASE/api/support/admin/retry-emails" \
   --header "Authorization: Bearer $SUPPORT_ADMIN_TOKEN" \
   --header 'Content-Type: application/json' \
-  --data '{}'
+  --data "{\"protocol\":\"$SUPPORT_PROTOCOL\"}"
 ```
 
-O resultado informa `sent`, `failed` e `skipped`. Cada chamada processa **até três trabalhos**, preservando o orçamento de consultas por invocação do D1 Free. Repita após verificar o retorno e a quota do provedor até uma chamada retornar `sent: 0` e `failed: 0`; trabalhos ainda reservados podem exigir aguardar dois minutos. Se houver falhas, corrija a causa antes de continuar; se receber `429`, aguarde o limite indicado pela janela de dez minutos. Não há cron ou serviço de reenvio automático.
+O campo `protocol` seleciona os trabalhos daquele ticket. Também é possível enviar `{}` para processar os próximos trabalhos pendentes globalmente. O resultado informa `sent`, `failed` e `skipped`. Cada chamada processa **até três trabalhos**, preservando o orçamento de consultas por invocação do D1 Free. Repita após verificar o retorno e a quota do provedor até uma chamada retornar `sent: 0` e `failed: 0`; trabalhos ainda reservados podem exigir aguardar dois minutos. Se houver falhas, corrija a causa antes de continuar; se receber `429`, aguarde o limite indicado pela janela de dez minutos. Não há cron ou serviço de reenvio automático.
 
 O payload de cada e-mail é armazenado no D1 para repetir conteúdo e links idênticos nas tentativas. Isso evita conflito de idempotência no Resend por gerar uma URL de anexo diferente a cada reenvio. Após seis dias, o conteúdo pode ser renovado com links novos e uma nova chave de envio. O corpo armazenado integra os dados do ticket e segue a retenção definida pelo responsável.
 
@@ -173,7 +173,7 @@ curl --fail-with-body --get \
   --data-urlencode "protocol=$SUPPORT_PROTOCOL"
 ```
 
-O retorno não inclui dados pessoais. Ele informa tentativas, trabalhos pendentes, destinos lógicos (`internal`, `confirmation` ou `status`) e códigos seguros como `EMAIL_CONFIGURATION`, `EMAIL_HTTP_403` e `EMAIL_RATE_LIMIT`. Se todos os trabalhos falharem antes do envio, confirme primeiro que `0002_email_payload.sql` aparece como aplicada no D1 remoto; sem suas colunas, a fila não consegue preparar o payload.
+O retorno não inclui dados pessoais. Ele informa tentativas, trabalhos pendentes, destinos lógicos (`internal`, `confirmation` ou `status`), a presença/formato da chave Resend e códigos seguros como `EMAIL_CONFIGURATION`, `EMAIL_HTTP_403` e `EMAIL_RATE_LIMIT`. Falhas de transporte registram `support_email_provider_fetch_failed` sem incluir a mensagem original ou o segredo. Se todos os trabalhos falharem antes do envio, confirme primeiro que `0002_email_payload.sql` aparece como aplicada no D1 remoto; sem suas colunas, a fila não consegue preparar o payload.
 
 ### Gerar novos links dos anexos
 

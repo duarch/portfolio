@@ -88,6 +88,7 @@ export const ticketSchema = z.object({
 }))
 
 export const protocolSchema = z.string({ error: 'errors.request' }).regex(/^DUAR-\d{4}-\d{6}$/, { message: 'errors.request' })
+export const retryEmailsSchema = z.object({ protocol: protocolSchema.optional() }, { error: 'errors.request' }).strict()
 export const statusSchema = z.object({
   protocolo: protocolSchema,
   status: z.enum(STATUSES, { error: 'errors.request' }),
