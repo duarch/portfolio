@@ -158,4 +158,26 @@ export class D1Repository {
     return this.db.prepare(`SELECT COUNT(*) AS total,SUM(CASE WHEN completed_at IS NOT NULL THEN 1 ELSE 0 END) AS sent,
       SUM(CASE WHEN completed_at IS NULL THEN 1 ELSE 0 END) AS pending FROM email_jobs WHERE protocol=?`).bind(protocol).first();
   }
+
+  async supportDiagnostics(protocol) {
+    const ticket = await this.db.prepare(`SELECT protocol,status,email_attempts,last_email_error,
+      support_email_sent_at,user_email_sent_at FROM tickets WHERE protocol=?`).bind(protocol).first();
+    if (!ticket) return null;
+    const jobs = await this.db.prepare(`SELECT kind,attempts,completed_at,last_error FROM email_jobs
+      WHERE protocol=? ORDER BY created_at,id`).bind(protocol).all();
+    return {
+      protocol: ticket.protocol,
+      status: ticket.status,
+      emailAttempts: ticket.email_attempts,
+      lastEmailError: ticket.last_email_error,
+      supportEmailSentAt: ticket.support_email_sent_at,
+      userEmailSentAt: ticket.user_email_sent_at,
+      jobs: jobs.results.map((job) => ({
+        kind: job.kind,
+        attempts: job.attempts,
+        sent: Boolean(job.completed_at),
+        lastError: job.last_error,
+      })),
+    };
+  }
 }

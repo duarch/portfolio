@@ -283,9 +283,15 @@ describe('public endpoint protections', () => {
 
   it('builds frontend requests from VITE_SUPPORT_API_BASE and keeps local proxy fallback', async () => {
     const source = await (await import('node:fs/promises')).readFile(new URL('../../support/ui/SupportApp.jsx', import.meta.url), 'utf8');
+    const portfolio = await (await import('node:fs/promises')).readFile(new URL('../../src/App.jsx', import.meta.url), 'utf8');
+    const styles = await (await import('node:fs/promises')).readFile(new URL('../../src/styles.css', import.meta.url), 'utf8');
     expect(source).toContain("import.meta.env.VITE_SUPPORT_API_BASE");
     expect(source).toContain("const apiUrl = (path) => `${API_BASE}${path}`");
-    expect(source).toMatch(/['"]\/support\/privacy\/['"]/)
+    expect(source).toMatch(/['"]\/support\/privacy\/['"]/);
+    expect(source).toContain('new URLSearchParams(window.location.search).get("lang")');
+    expect(portfolio).toContain('/support/?lang=${localeMap[language] || "en"}');
+    expect(styles).toMatch(/\.footer-links\s*{[^}]*flex-wrap:\s*wrap/s);
+    expect(styles).toMatch(/@media \(max-width: 768px\)[\s\S]*\.footer-links\s*{[^}]*justify-content:\s*center/s);
     expect(source).not.toMatch(/fetch\(['"]\/api\/support/);
   });
 
@@ -427,6 +433,23 @@ describe('administrative endpoints and durable status events', () => {
     expect((await response.json()).attachments[0].url).toContain('expires=604800');
     expect(response.headers.has('Access-Control-Allow-Origin')).toBe(false);
   });
+
+  it('returns safe email diagnostics without CORS or personal data', async () => {
+    await submit(validTicket());
+    const response = await handle(request(`admin/diagnostics?protocol=${protocol}`, undefined, { method: 'GET', admin: true }), env);
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body).toMatchObject({
+      protocol,
+      emailAttempts: 2,
+      lastEmailError: null,
+    });
+    expect(body.jobs).toEqual(expect.arrayContaining([
+      expect.objectContaining({ kind: 'confirmation', sent: true, lastError: null }),
+      expect.objectContaining({ kind: 'internal', sent: true, lastError: null }),
+    ]));
+    expect(response.headers.has('Access-Control-Allow-Origin')).toBe(false);
+  });
 });
 
 describe('production service adapters without network', () => {
@@ -454,6 +477,29 @@ describe('production service adapters without network', () => {
     await storage.copy('pending/test.png', 'tickets/protocol/test.png', { etag: '"original"' });
     expect(fetchImpl.mock.calls[0][0].headers.get('If-Match')).toBe('"original"');
     expect(fetchImpl.mock.calls[1][0].headers.get('x-amz-copy-source-if-match')).toBe('"original"');
+  });
+
+  it('uses the Worker R2 binding for validation, promotion and cleanup', async () => {
+    const binding = {
+      head: vi.fn(async () => ({ size: PNG.length, etag: 'original', httpEtag: '"original"', httpMetadata: { contentType: 'image/png' } })),
+      get: vi.fn(async (key, options) => options.range
+        ? { body: new Response(PNG).body, arrayBuffer: async () => PNG.slice().buffer }
+        : { body: new Response(PNG).body, httpMetadata: { contentType: 'image/png' }, customMetadata: { source: 'support' } }),
+      put: vi.fn(async () => ({ etag: 'copied' })),
+      delete: vi.fn(async () => {}),
+    };
+    const storage = new R2Storage({ R2_BUCKET: 'private-bucket', ATTACHMENTS: binding });
+    expect(await storage.head('pending/test.png')).toMatchObject({ size: PNG.length, type: 'image/png', etag: '"original"' });
+    expect(await storage.readHeader('pending/test.png', { etag: '"original"' })).toEqual(PNG);
+    await storage.copy('pending/test.png', 'tickets/protocol/test.png', { etag: '"original"' });
+    await storage.delete('pending/test.png');
+    expect(binding.get.mock.calls[0][1].onlyIf.get('If-Match')).toBe('"original"');
+    expect(binding.get.mock.calls[1][1].onlyIf.get('If-Match')).toBe('"original"');
+    expect(binding.put).toHaveBeenCalledWith('tickets/protocol/test.png', expect.anything(), {
+      httpMetadata: { contentType: 'image/png' }, customMetadata: { source: 'support' },
+    });
+    expect(binding.delete).toHaveBeenCalledWith('pending/test.png');
+    expect(fetch).not.toHaveBeenCalled();
   });
 
   it('requires both successful Turnstile verification and the configured hostname', async () => {

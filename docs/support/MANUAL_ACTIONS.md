@@ -62,6 +62,7 @@ Execute este checklist na raiz do repositório e na ordem abaixo. **Os comandos 
 - [x] No Resend, confirmar o subdomínio real verificado (premissa `notify.duar.ch`) e os remetentes `form@notify.duar.ch` e `support@notify.duar.ch`. Criar uma API key com permissão apenas de envio e restrição ao domínio, se disponível. **Manter tracking de abertura e de cliques desligado.**
 - [x] Confirmar que `support@duar.ch` continua recebendo pelo Zoho. O código não depende de SMTP do Zoho e não altera seus registros MX.
 - [x] Confirmar as configurações R2 já existentes, sem recriar bucket ou liberar acesso público: `duarch-support-attachments`, credencial Object Read & Write restrita a esse bucket, endpoint S3 da conta, retenção de objetos de 90 dias e CORS de produção somente para `https://duar.ch`, com PUT e Content-Type, expondo ETag.
+- [ ] Confirmar no dry-run/deploy que `ATTACHMENTS` aparece como binding R2 para `duarch-support-attachments`. O Worker usa esse binding para validar e promover anexos; as credenciais S3 permanecem necessárias para URLs temporárias.
 - [ ] Opcional: adicionar uma regra de ciclo de vida para apagar apenas `pending/` após um dia, mantendo a retenção de 90 dias para os anexos dos tickets. Essa regra não limpa os metadados D1.
 
 ## 5. Preencher configuração e segredos
@@ -109,8 +110,12 @@ Execute este checklist na raiz do repositório e na ordem abaixo. **Os comandos 
 - [ ] Aplicar a migração remota depois de confirmar conta e `database_id`:
 
   ```sh
+  npx wrangler d1 migrations list support-db --remote
   npm run support:migrate:remote
+  npx wrangler d1 migrations list support-db --remote
   ```
+
+  Confirmar que `0002_email_payload.sql` aparece como aplicada. Sem essa migração, o ticket é gravado e recebe protocolo, mas os trabalhos de e-mail falham antes da chamada ao Resend.
 
 - [ ] Executar a validação final, gerar a página estática para o GitHub Pages e conferir o pacote da API:
 
@@ -157,6 +162,11 @@ Execute este checklist na raiz do repositório e na ordem abaixo. **Os comandos 
     --header "Authorization: Bearer $SUPPORT_ADMIN_TOKEN" \
     --data-urlencode "protocol=$SUPPORT_PROTOCOL"
 
+  curl --fail-with-body --get \
+    "$SUPPORT_API_BASE/api/support/admin/diagnostics" \
+    --header "Authorization: Bearer $SUPPORT_ADMIN_TOKEN" \
+    --data-urlencode "protocol=$SUPPORT_PROTOCOL"
+
   curl --fail-with-body --request POST \
     "$SUPPORT_API_BASE/api/support/admin/retry-emails" \
     --header "Authorization: Bearer $SUPPORT_ADMIN_TOKEN" \
@@ -165,6 +175,8 @@ Execute este checklist na raiz do repositório e na ordem abaixo. **Os comandos 
 
   unset SUPPORT_ADMIN_TOKEN SUPPORT_API_BASE SUPPORT_PROTOCOL
   ```
+
+  Para protocolos já criados sem e-mail, aplicar primeiro a migração pendente, publicar o Worker corrigido, consultar `diagnostics` e então chamar `retry-emails`. Os trabalhos foram preservados no D1 e não exigem criar outro ticket.
 
 - [ ] Confirmar e-mail de atualização no idioma do ticket e funcionamento dos links novos. Enviar outro ticket com retorno desmarcado: a confirmação deve chegar e uma alteração de status não deve enviar atualização. Repetir uma mudança para o mesmo estado não deve duplicar eventos/avisos.
 - [ ] Confirmar que endpoints administrativos sem bearer token respondem `401`. Os exemplos e estados completos estão no [README](./README.md#api-administrativa).

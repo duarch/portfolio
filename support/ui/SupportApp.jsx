@@ -31,6 +31,9 @@ const apiUrl = (path) => `${API_BASE}${path}`;
 
 function storedLocale() {
   try {
+    const query = new URLSearchParams(window.location.search).get("lang");
+    const requested = normalizeLocale(query);
+    if (requested) return requested;
     const preference = localStorage.getItem("language");
     return /^(pt(?:-br)?|en|es)$/i.test(preference || "")
       ? normalizeLocale(preference)
@@ -218,6 +221,7 @@ export function SupportApp() {
   useEffect(() => {
     document.documentElement.lang = locale;
     document.title = t("ui.pageTitle");
+    persistLocale(locale);
     document
       .querySelector('meta[name="description"]')
       ?.setAttribute("content", t("ui.metaDescription"));

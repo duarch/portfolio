@@ -1,7 +1,7 @@
 import { CONSENT_VERSION } from '../shared/config.js';
 import { resolveLocale } from '../shared/locale.js';
 import { createRuntime, handleMockObjectRequest } from './runtime.js';
-import { attachmentLinks, changeStatus, createTicket, createUploads, retryEmails } from './tickets.js';
+import { attachmentLinks, changeStatus, createTicket, createUploads, diagnostics, retryEmails } from './tickets.js';
 import { SupportError, authorizeAdmin, jsonResponse, rateLimit, secureResponse, usesMocks, validateOrigin } from './security.js';
 
 export function createSupportHandler(runtime) {
@@ -24,6 +24,7 @@ export async function handleSupportRequest(request, env, ctx, runtime) {
         return jsonResponse(await retryEmails(request, env, runtime));
       }
       if (url.pathname === '/api/support/admin/attachment-links' && request.method === 'GET') return jsonResponse(await attachmentLinks(request, env, runtime));
+      if (url.pathname === '/api/support/admin/diagnostics' && request.method === 'GET') return jsonResponse(await diagnostics(request, env, runtime));
       throw new SupportError('notFound', 404);
     }
     const publicEndpoint = ['/api/support/config', '/api/support/uploads', '/api/support/tickets'].includes(url.pathname);
@@ -43,6 +44,13 @@ export async function handleSupportRequest(request, env, ctx, runtime) {
     throw new SupportError('notFound', 404);
   } catch (error) {
     const known = error instanceof SupportError;
+    if (!known || error.status >= 500) console.error('support_request_failed', JSON.stringify({
+      route: url.pathname,
+      method: request.method,
+      code: known ? error.code : 'errors.serverError',
+      status: known ? error.status : 503,
+      error: error?.name || 'Error',
+    }));
     return jsonResponse({ error: known ? error.code : 'errors.serverError', ...(known && error.issues ? { issues: error.issues } : {}) }, known ? error.status : 503, admin ? {} : cors);
   }
 }

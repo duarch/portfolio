@@ -143,3 +143,10 @@ export async function attachmentLinks(request, env, runtime) {
   if (!ticket) throw new SupportError('notFound', 404);
   return { protocol, attachments: await Promise.all(ticket.attachments.map(async (file) => ({ name: file.name, type: file.type, size: file.size, url: await runtime.storage.signDownload(file.key) }))) };
 }
+
+export async function diagnostics(request, env, runtime) {
+  const protocol = parse(protocolSchema, new URL(request.url).searchParams.get('protocol'));
+  const result = await runtime.repo.supportDiagnostics(protocol);
+  if (!result) throw new SupportError('notFound', 404);
+  return result;
+}

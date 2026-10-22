@@ -11,6 +11,10 @@
     "database_id": "e186d037-175d-4da6-9ed4-7baeb401167a",
     "migrations_dir": "support/migrations"
   }],
+  "r2_buckets": [{
+    "binding": "ATTACHMENTS",
+    "bucket_name": "duarch-support-attachments"
+  }],
   "vars": {
     "SUPPORT_ORIGIN": "https://duar.ch",
     "SUPPORT_MOCK_SERVICES": "false",
@@ -35,6 +39,10 @@
         "database_name": "support-db",
         "database_id": "00000000-0000-0000-0000-000000000000",
         "migrations_dir": "support/migrations"
+      }],
+      "r2_buckets": [{
+        "binding": "ATTACHMENTS",
+        "bucket_name": "duarch-support-attachments"
       }],
       "vars": {
         "SUPPORT_ORIGIN": "http://127.0.0.1:3000",

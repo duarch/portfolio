@@ -523,7 +523,24 @@ h3 {
 
 .footer-links {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    justify-content: center;
+    padding-inline: 1.25rem;
+    text-align: center;
+  }
+
+  .footer-links {
+    width: 100%;
+    justify-content: center;
+    gap: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
 }
 
 .reveal {

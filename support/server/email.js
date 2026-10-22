@@ -119,6 +119,7 @@ export async function deliverPendingEmails(repo, storage, emailProvider, { proto
         result.skipped++;
         continue;
       }
+      stage = 'load_payload';
       const cached = await repo.getEmailJobPayload(job.id);
       // Signed attachment URLs must stay identical across uncertain deliveries:
       // Resend rejects reusing an idempotency key with a different request body.
@@ -139,7 +140,9 @@ export async function deliverPendingEmails(repo, storage, emailProvider, { proto
       await repo.finishEmailJob(job.id, new Date().toISOString());
       result.sent++;
     } catch (error) {
-      const code = /^[A-Z0-9_]{1,60}$/.test(error?.code || '') ? error.code : 'EMAIL_DELIVERY_FAILED';
+      const missingPayloadSchema = /no such column:\s*payload_(?:json|created_at)/i.test(String(error?.message || ''));
+      const code = missingPayloadSchema ? 'EMAIL_SCHEMA_MISSING'
+        : /^[A-Z0-9_]{1,60}$/.test(error?.code || '') ? error.code : 'EMAIL_DELIVERY_FAILED';
       console.error('support_email_delivery_failed', JSON.stringify({
         protocol: job.protocol,
         kind: job.kind,
