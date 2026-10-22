@@ -1,0 +1,43 @@
+name: Support checks
+
+on:
+  pull_request:
+    paths:
+      - 'support/**'
+      - 'tests/support/**'
+      - 'docs/support/**'
+      - 'package*.json'
+      - '*support*config*'
+      - 'vitest.config.js'
+      - 'wrangler.jsonc'
+      - '.github/workflows/support.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'support/**'
+      - 'tests/support/**'
+      - 'package*.json'
+      - '*support*config*'
+      - 'vitest.config.js'
+      - 'wrangler.jsonc'
+      - '.github/workflows/support.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-latest
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+      CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build:support
+      - run: npm run support:check

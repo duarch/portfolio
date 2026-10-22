@@ -4,23 +4,37 @@
     "version": "0.0.0",
     "type": "module",
     "engines": {
-        "node": ">=20.0.0"
+        "node": ">=22.13.0"
     },
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview"
+        "build": "vite build && npm run build:support",
+        "preview": "vite preview",
+        "dev:support": "vite --config vite.support.config.js --host 127.0.0.1 --port 3000",
+        "dev:support:api": "CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV=false WRANGLER_SEND_METRICS=false wrangler dev --env local --ip 127.0.0.1 --port 8787 --local",
+        "build:support": "vite build --config vite.support.config.js",
+        "test": "vitest run",
+        "test:support": "vitest run tests/support",
+        "support:migrate:local": "CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV=false WRANGLER_SEND_METRICS=false wrangler d1 migrations apply support-db --env local --local",
+        "support:migrate:remote": "wrangler d1 migrations apply support-db --remote",
+        "support:check": "WRANGLER_SEND_METRICS=false wrangler deploy --env \"\" --dry-run --outdir /tmp/duarch-support-worker"
     },
     "dependencies": {
         "@react-three/drei": "^9.96.6",
         "@react-three/fiber": "^8.15.16",
+        "aws4fetch": "^1.0.20",
+        "file-type": "^22.2.0",
         "gsap": "^3.12.5",
+        "libphonenumber-js": "^1.13.15",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "three": "^0.160.0"
+        "three": "^0.160.0",
+        "zod": "^4.6.7"
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^5.1.4",
-        "vite": "^7.3.1"
+        "vite": "^7.3.1",
+        "vitest": "^5.0.5",
+        "wrangler": "^4.151.3"
     }
 }

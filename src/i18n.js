@@ -164,6 +164,7 @@ export const translations = {
     footerGithub: "GitHub",
     footerTwitter: "Twitter",
     footerDev: "DEV",
+    footerSupport: "Support",
 
     // Resume Page
     resumeTitle: "Resume - André Duarch",
@@ -319,6 +320,7 @@ export const translations = {
     footerGithub: "GitHub",
     footerTwitter: "Twitter",
     footerDev: "DEV",
+    footerSupport: "Suporte",
 
     // Resume Page
     resumeTitle: "Resume - André Duarch",
@@ -474,6 +476,7 @@ export const translations = {
     footerGithub: "GitHub",
     footerTwitter: "Twitter",
     footerDev: "DEV",
+    footerSupport: "Soporte",
 
     // Resume Page
     resumeTitle: "Currículum - André Duarch",

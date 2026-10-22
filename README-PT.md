@@ -30,6 +30,12 @@ O deploy é feito via **GitHub Pages** pelo workflow:
 
 Este repositório não usa Vercel para deploy.
 
+## Suporte
+
+A página `/support` e sua API Cloudflare Worker + D1 estão documentadas em
+[docs/support/README.md](docs/support/README.md). Configuração e publicação manual:
+[docs/support/MANUAL_ACTIONS.md](docs/support/MANUAL_ACTIONS.md).
+
 ## Currículos
 
 A fonte única dos currículos é:
