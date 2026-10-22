@@ -502,6 +502,22 @@ describe('production service adapters without network', () => {
     expect(fetch).not.toHaveBeenCalled();
   });
 
+  it('falls back to the configured S3 API URL when the R2 binding fails temporarily', async () => {
+    const binding = { head: vi.fn(async () => { throw new Error('temporary binding failure'); }) };
+    const fetchImpl = vi.fn(async () => new Response(null, { status: 200, headers: {
+      'Content-Length': String(PNG.length), 'Content-Type': 'image/png', ETag: '"s3-version"',
+    } }));
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const storage = new R2Storage({
+      R2_API_URL: 'https://account.r2.cloudflarestorage.com/private-bucket',
+      R2_BUCKET: 'private-bucket', R2_ACCESS_KEY_ID: 'fake-id', R2_SECRET_ACCESS_KEY: 'fake-secret', ATTACHMENTS: binding,
+    }, { fetchImpl });
+    expect(await storage.head('pending/test.png')).toMatchObject({ size: PNG.length, type: 'image/png', etag: '"s3-version"' });
+    expect(fetchImpl.mock.calls[0][0].url).toContain('account.r2.cloudflarestorage.com/private-bucket/pending/test.png');
+    expect(warn).toHaveBeenCalledWith('support_r2_s3_fallback', JSON.stringify({ operation: 'HEAD' }));
+    warn.mockRestore();
+  });
+
   it('requires both successful Turnstile verification and the configured hostname', async () => {
     const fetchImpl = vi.fn(async () => Response.json({ success: true, hostname: 'attacker.example' }));
     expect(await verifyTurnstile('token', request('tickets', {}), { ...env, TURNSTILE_SECRET_KEY: 'fake-secret' }, fetchImpl)).toBe(false);

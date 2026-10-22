@@ -66,13 +66,14 @@ Configure estes valores no objeto `vars` de produção em `wrangler.jsonc` ou no
 | `VITE_SUPPORT_API_BASE` | URL `https://<worker>.<subdomínio>.workers.dev` usada somente no build do GitHub Pages. |
 | `SUPPORT_MOCK_SERVICES` | `false` em produção. |
 | `R2_BUCKET` | `duarch-support-attachments`, bucket privado existente. |
+| `R2_API_URL` | URL S3 completa do bucket, definida em `wrangler.jsonc`. |
 | `SUPPORT_INBOX` | `support@duar.ch`, caixa existente no Zoho. |
 | `EMAIL_FROM_INTERNAL` | Padrão `form@notify.duar.ch`, pertencente ao domínio verificado no Resend. |
 | `EMAIL_FROM_USER` | Padrão `support@notify.duar.ch`, pertencente ao domínio verificado no Resend. |
 | `TURNSTILE_SITE_KEY` | Chave pública do widget habilitado para `duar.ch`. |
 | `PRIVACY_POLICY_URL` | URL HTTPS absoluta para a política revisada. Obrigatória para aceitar tickets em produção. |
 
-O mesmo bucket está ligado ao Worker como `ATTACHMENTS` em `r2_buckets`. O binding é usado nas operações internas de validação, promoção e limpeza; as credenciais S3 continuam necessárias somente para gerar os PUTs e GETs temporários usados pelo navegador e pelos e-mails internos.
+O mesmo bucket está ligado ao Worker como `ATTACHMENTS` em `r2_buckets`. O binding é usado primeiro nas operações internas de validação, promoção e limpeza. Se uma operação interna falhar temporariamente, o Worker repete pela API S3 autenticada e registra `support_r2_s3_fallback`. As credenciais S3 também geram os PUTs e GETs temporários usados pelo navegador e pelos e-mails internos.
 
 ### Segredos do Worker
 

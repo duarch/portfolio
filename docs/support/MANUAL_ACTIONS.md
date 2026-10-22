@@ -63,6 +63,8 @@ Execute este checklist na raiz do repositório e na ordem abaixo. **Os comandos 
 - [x] Confirmar que `support@duar.ch` continua recebendo pelo Zoho. O código não depende de SMTP do Zoho e não altera seus registros MX.
 - [x] Confirmar as configurações R2 já existentes, sem recriar bucket ou liberar acesso público: `duarch-support-attachments`, credencial Object Read & Write restrita a esse bucket, endpoint S3 da conta, retenção de objetos de 90 dias e CORS de produção somente para `https://duar.ch`, com PUT e Content-Type, expondo ETag.
 - [ ] Confirmar no dry-run/deploy que `ATTACHMENTS` aparece como binding R2 para `duarch-support-attachments`. O Worker usa esse binding para validar e promover anexos; as credenciais S3 permanecem necessárias para URLs temporárias.
+- [ ] Confirmar que `R2_API_URL` no `wrangler.jsonc` corresponde a `https://ba0a5a6e4e035092742595d302d1d39c.r2.cloudflarestorage.com/duarch-support-attachments`.
+- [ ] No CORS do bucket, manter `https://duar.ch`. Para o fluxo local atual, substituir `http://localhost:3000` por `http://127.0.0.1:3000`; origens com hostnames diferentes não são equivalentes para o navegador.
 - [ ] Opcional: adicionar uma regra de ciclo de vida para apagar apenas `pending/` após um dia, mantendo a retenção de 90 dias para os anexos dos tickets. Essa regra não limpa os metadados D1.
 
 ## 5. Preencher configuração e segredos
