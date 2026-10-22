@@ -38,3 +38,6 @@ pnpm-lock.yaml
 .cache/
 .vite/
 tempFiles/
+
+# Keep support build scripts (source code, not build output)
+!support/build/
