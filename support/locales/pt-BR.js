@@ -126,7 +126,7 @@ export default {
   'email.yes': 'Sim',
   'email.no': 'Não',
   'email.none': 'Nenhum',
-  'email.attachmentExpiry': 'Os links dos anexos expiram após 7 dias. Os arquivos ficam armazenados por 90 dias; um administrador pode gerar novos links nesse período.',
+  'email.attachmentExpiry': 'Usamos estes dados para atender sua solicitação de suporte. Os anexos ficam armazenados e os dados do ticket são mantidos por 90 dias. Para pedir exclusão, entre em contato com support@duar.ch.',
   'email.contact': 'Para falar sobre esta solicitação, responda a este e-mail ou entre em contato com {email}.',
   'email.footer': 'Suporte duar.ch · {protocol}',
 }

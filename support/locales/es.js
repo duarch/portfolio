@@ -126,7 +126,7 @@ export default {
   'email.yes': 'Sí',
   'email.no': 'No',
   'email.none': 'Ninguno',
-  'email.attachmentExpiry': 'Los enlaces de los adjuntos caducan a los 7 días. Los archivos se conservan durante 90 días; un administrador puede generar enlaces nuevos durante ese plazo.',
+  'email.attachmentExpiry': 'Usamos estos datos para atender tu solicitud de soporte. Los archivos adjuntos y los datos del ticket se guardan durante 90 días. Para pedir su eliminación, escribe a support@duar.ch.',
   'email.contact': 'Para hablar sobre esta solicitud, responde a este correo o contacta con {email}.',
   'email.footer': 'Soporte de duar.ch · {protocol}',
 }

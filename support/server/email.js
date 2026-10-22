@@ -21,7 +21,9 @@ export class ResendEmailProvider {
 
   async send(message, { idempotencyKey } = {}) {
     if (!this.env.RESEND_API_KEY) throw Object.assign(new Error('Email unavailable'), { code: 'EMAIL_CONFIGURATION' });
-    const response = await this.fetchImpl('https://api.resend.com/emails', {
+    let response;
+    try {
+      response = await this.fetchImpl('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${this.env.RESEND_API_KEY}`,
@@ -30,12 +32,15 @@ export class ResendEmailProvider {
       },
       // Tracking stays disabled on the verified Resend domain. No tracking options or pixels.
       body: JSON.stringify(message),
-      signal: AbortSignal.timeout(10000),
-    });
+      });
+    } catch {
+      throw Object.assign(new Error('Email provider unavailable'), { code: 'EMAIL_NETWORK' });
+    }
     if (!response.ok) {
       // Provider response bodies may contain personal data; never log or persist them.
       throw Object.assign(new Error('Email delivery failed'), {
         code: response.status === 429 ? 'EMAIL_RATE_LIMIT' : `EMAIL_HTTP_${response.status}`,
+        status: response.status,
       });
     }
   }
@@ -104,6 +109,7 @@ export async function deliverPendingEmails(repo, storage, emailProvider, { proto
   for (const job of jobs) {
     const now = new Date().toISOString();
     if (!await repo.claimEmailJob(job.id, now)) { result.skipped++; continue; }
+    let stage = 'load_ticket';
     try {
       const ticket = await repo.getTicket(job.protocol);
       if (!ticket) throw Object.assign(new Error('Missing ticket'), { code: 'EMAIL_TICKET_MISSING' });
@@ -120,16 +126,29 @@ export async function deliverPendingEmails(repo, storage, emailProvider, { proto
       const fresh = cached && Date.now() - new Date(cached.createdAt).getTime() < 6 * 86400000;
       let message = fresh ? cached.message : null;
       if (!message) {
+        stage = 'render';
         const event = job.eventId ? await repo.getStatusEvent(job.eventId) : null;
         message = await renderEmail(job, ticket, event, storage, emailProvider.env || {});
+        stage = 'save_payload';
         await repo.saveEmailJobPayload(job.id, message, now);
       }
       const payloadHash = await sha256(JSON.stringify(message));
+      stage = 'send';
       await emailProvider.send(message, { idempotencyKey: `support/${job.id}/${payloadHash}` });
+      stage = 'finish';
       await repo.finishEmailJob(job.id, new Date().toISOString());
       result.sent++;
     } catch (error) {
-      await repo.failEmailJob(job.id, /^[A-Z0-9_]{1,60}$/.test(error?.code || '') ? error.code : 'EMAIL_DELIVERY_FAILED');
+      const code = /^[A-Z0-9_]{1,60}$/.test(error?.code || '') ? error.code : 'EMAIL_DELIVERY_FAILED';
+      console.error('support_email_delivery_failed', JSON.stringify({
+        protocol: job.protocol,
+        kind: job.kind,
+        stage,
+        code,
+        status: Number.isInteger(error?.status) ? error.status : undefined,
+        error: error?.name || 'Error',
+      }));
+      await repo.failEmailJob(job.id, code);
       result.failed++;
     }
   }

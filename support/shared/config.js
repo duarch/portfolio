@@ -17,5 +17,5 @@ export const MIME_TYPES = Object.freeze({
 })
 
 // Review the short notice and linked policy before changing this version.
-export const CONSENT_VERSION = '2026-10-22-1'
+export const CONSENT_VERSION = '2026-10-22-2'
 export const STATUSES = Object.freeze(['received', 'in_review', 'awaiting_user', 'resolved'])
