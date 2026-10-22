@@ -23,6 +23,11 @@ export default function App() {
     return urlMap[language] || "/resume/";
   };
 
+  const getSupportUrl = () => {
+    const localeMap = { pt: "pt-BR", en: "en", es: "es" };
+    return `/support/?lang=${localeMap[language] || "en"}`;
+  };
+
   // ScrollTrigger + Animação das peças (FORA do Canvas)
   useEffect(() => {
     let ctx;
@@ -365,7 +370,7 @@ export default function App() {
           >
             {t("footerDev")}
           </a>
-          <a href="/support/" aria-label={t("footerSupport")}>
+          <a href={getSupportUrl()} aria-label={t("footerSupport")}>
             {t("footerSupport")}
           </a>
         </nav>

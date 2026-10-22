@@ -72,6 +72,8 @@ Configure estes valores no objeto `vars` de produção em `wrangler.jsonc` ou no
 | `TURNSTILE_SITE_KEY` | Chave pública do widget habilitado para `duar.ch`. |
 | `PRIVACY_POLICY_URL` | URL HTTPS absoluta para a política revisada. Obrigatória para aceitar tickets em produção. |
 
+O mesmo bucket está ligado ao Worker como `ATTACHMENTS` em `r2_buckets`. O binding é usado nas operações internas de validação, promoção e limpeza; as credenciais S3 continuam necessárias somente para gerar os PUTs e GETs temporários usados pelo navegador e pelos e-mails internos.
+
 ### Segredos do Worker
 
 | Nome | Finalidade |
@@ -106,13 +108,13 @@ Os limites ficam em `support/shared/config.js`: cinco arquivos, até 10 MB por i
 
 O fluxo usa `POST /api/support/uploads` para reservar metadados e obter URLs de **PUT** pré-assinadas por 15 minutos. O navegador faz o upload direto, com progresso. A reserva tem validade de uma hora e uma prova HMAC vinculada à chave, tipo, tamanho, nome e expiração. A prova impede associar ao ticket um objeto de outro solicitante apenas conhecendo sua chave.
 
-Ao receber o ticket, o servidor valida todas as provas e reserva os anexos para aquele processamento; exige chaves `pending/<uuid>.<ext>`, consulta tamanho e tipo com HEAD e lê os primeiros 8 KiB por GET Range para verificar o conteúdo real. Anexos inválidos são apagados e rejeitados. Falhas temporárias de leitura preservam o arquivo para nova tentativa. Os arquivos válidos são copiados para `tickets/<PROTOCOLO>/...`; os originais pendentes são removidos depois da gravação durável do ticket. A regra existente do bucket remove os objetos após 90 dias.
+Ao receber o ticket, o servidor valida todas as provas e reserva os anexos para aquele processamento; exige chaves `pending/<uuid>.<ext>`, consulta tamanho e tipo e lê os primeiros 8 KiB pelo binding `ATTACHMENTS` para verificar o conteúdo real. Anexos inválidos são apagados e rejeitados. Falhas temporárias de leitura preservam o arquivo para nova tentativa. Os arquivos válidos são copiados por streaming para `tickets/<PROTOCOLO>/...`; os originais pendentes são removidos depois da gravação durável do ticket. A regra existente do bucket remove os objetos após 90 dias.
 
 Somente o aviso interno contém links GET pré-assinados por sete dias. A confirmação ao usuário contém apenas os nomes dos arquivos. O endpoint administrativo pode emitir novos links enquanto o objeto ainda existir; ele não restaura objetos apagados pela retenção. URLs e provas expiram também se as credenciais correspondentes forem revogadas. Uploads removidos ou abandonados antes de um ticket ficam cobertos pela regra do bucket; recomenda-se a regra opcional de um dia para `pending/`.
 
 ### Idioma e apps
 
-A preferência existente em `localStorage.language` tem prioridade (`pt` é normalizado para `pt-BR`), seguida do cabeçalho `Accept-Language`, considerando os pesos `q`, e do fallback `en`. O seletor salva a escolha na mesma chave que o portfólio usa. O idioma é persistido no ticket e determina os e-mails posteriores. Os nomes de países usam `Intl.DisplayNames` sobre a lista ISO 3166-1 alpha-2.
+O link do portfólio inclui o idioma atual em `?lang=`. Essa preferência tem prioridade, seguida de `localStorage.language` (`pt` é normalizado para `pt-BR`), do cabeçalho `Accept-Language`, considerando os pesos `q`, e do fallback `en`. O seletor salva a escolha na mesma chave que o portfólio usa. O idioma é persistido no ticket e determina os e-mails posteriores. Os nomes de países usam `Intl.DisplayNames` sobre a lista ISO 3166-1 alpha-2.
 
 Para adicionar ou remover um app, edite uma linha de `config/apps.json` e publique novamente o suporte. IDs devem ser únicos e estáveis; mantenha `{ "id": "other", "name": "Other" }` por último. O rótulo desse item vem das traduções. O servidor aceita somente os IDs presentes no arquivo, e os testes validam a estrutura. Remover um app não remove tickets anteriores.
 
@@ -160,6 +162,17 @@ O resultado informa `sent`, `failed` e `skipped`. Cada chamada processa **até t
 O payload de cada e-mail é armazenado no D1 para repetir conteúdo e links idênticos nas tentativas. Isso evita conflito de idempotência no Resend por gerar uma URL de anexo diferente a cada reenvio. Após seis dias, o conteúdo pode ser renovado com links novos e uma nova chave de envio. O corpo armazenado integra os dados do ticket e segue a retenção definida pelo responsável.
 
 Uma chave estável por payload reduz duplicação durante a [janela de idempotência de 24 horas do Resend](https://resend.com/docs/dashboard/emails/idempotency-keys). A entrega é pelo menos uma vez: se o provedor aceitar o e-mail e o processo falhar antes de marcar o trabalho no D1, um reenvio fora dessa janela pode duplicar a mensagem. A reserva de dois minutos evita processamento simultâneo normal, mas não promete entrega exatamente uma vez.
+
+### Diagnosticar entrega de e-mail
+
+```sh
+curl --fail-with-body --get \
+  "$SUPPORT_API_BASE/api/support/admin/diagnostics" \
+  --header "Authorization: Bearer $SUPPORT_ADMIN_TOKEN" \
+  --data-urlencode "protocol=$SUPPORT_PROTOCOL"
+```
+
+O retorno não inclui dados pessoais. Ele informa tentativas, trabalhos pendentes, destinos lógicos (`internal`, `confirmation` ou `status`) e códigos seguros como `EMAIL_CONFIGURATION`, `EMAIL_HTTP_403` e `EMAIL_RATE_LIMIT`. Se todos os trabalhos falharem antes do envio, confirme primeiro que `0002_email_payload.sql` aparece como aplicada no D1 remoto; sem suas colunas, a fila não consegue preparar o payload.
 
 ### Gerar novos links dos anexos
 

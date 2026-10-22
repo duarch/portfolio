@@ -49,6 +49,17 @@ describe('transactional email', () => {
     sqlite.close();
   });
 
+  it('classifies a missing email payload migration without calling Resend', async () => {
+    const { repo, sqlite } = testDatabase();
+    await repo.saveTicket(sampleTicket(), [], crypto.randomUUID());
+    vi.spyOn(repo, 'getEmailJobPayload').mockRejectedValue(new Error('D1_ERROR: no such column: payload_json'));
+    const provider = { env, send: vi.fn() };
+    expect(await deliverPendingEmails(repo, storage, provider, {})).toMatchObject({ sent: 0, failed: 2 });
+    expect((await repo.getTicket('DUAR-2026-000001')).lastEmailError).toBe('EMAIL_SCHEMA_MISSING');
+    expect(provider.send).not.toHaveBeenCalled();
+    sqlite.close();
+  });
+
   it('queues status notifications only for people requesting follow-up, and uses event status', async () => {
     const { repo, sqlite } = testDatabase();
     await repo.saveTicket(sampleTicket({ wantsReply: false }), [], crypto.randomUUID());
