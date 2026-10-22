@@ -5,18 +5,20 @@ import { SupportError } from './security.js';
 
 export class R2Storage {
   constructor(env, { fetchImpl = fetch } = {}) {
-    if (!env.R2_BUCKET || (!env.ATTACHMENTS && (!env.R2_ACCOUNT_ID || !env.R2_ACCESS_KEY_ID || !env.R2_SECRET_ACCESS_KEY))) throw new Error('STORAGE_UNAVAILABLE');
+    const endpoint = env.R2_API_URL?.replace(/\/$/, '') ||
+      (env.R2_ACCOUNT_ID ? `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${encodeURIComponent(env.R2_BUCKET || '')}` : '');
+    if (!env.R2_BUCKET || (!env.ATTACHMENTS && (!endpoint || !env.R2_ACCESS_KEY_ID || !env.R2_SECRET_ACCESS_KEY))) throw new Error('STORAGE_UNAVAILABLE');
     this.bucket = env.R2_BUCKET;
     this.binding = env.ATTACHMENTS;
-    this.endpoint = `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
+    this.endpoint = endpoint;
     this.fetchImpl = fetchImpl;
-    this.client = env.R2_ACCOUNT_ID && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY
+    this.client = endpoint && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY
       ? new AwsClient({ accessKeyId: env.R2_ACCESS_KEY_ID, secretAccessKey: env.R2_SECRET_ACCESS_KEY, service: 's3', region: 'auto' })
       : null;
   }
 
   url(key) {
-    return `${this.endpoint}/${encodeURIComponent(this.bucket)}/${key.split('/').map(encodeURIComponent).join('/')}`;
+    return `${this.endpoint}/${key.split('/').map(encodeURIComponent).join('/')}`;
   }
 
   async signedRequest(key, init = {}, expires) {
@@ -59,17 +61,26 @@ export class R2Storage {
     }
   }
 
+  canUseS3() {
+    return Boolean(this.endpoint && this.client);
+  }
+
   async head(key) {
     if (this.binding) {
-      return this.bindingRequest('HEAD', async () => {
-        const object = await this.binding.head(key);
-        if (!object) throw new SupportError('invalidAttachment', 400);
-        return {
-          size: object.size,
-          type: object.httpMetadata?.contentType?.split(';')[0].trim().toLowerCase() || '',
-          etag: object.httpEtag || `"${object.etag}"`,
-        };
-      });
+      try {
+        return await this.bindingRequest('HEAD', async () => {
+          const object = await this.binding.head(key);
+          if (!object) throw new SupportError('invalidAttachment', 400);
+          return {
+            size: object.size,
+            type: object.httpMetadata?.contentType?.split(';')[0].trim().toLowerCase() || '',
+            etag: object.httpEtag || `"${object.etag}"`,
+          };
+        });
+      } catch (error) {
+        if (!(error instanceof SupportError) || error.status < 500 || !this.canUseS3()) throw error;
+        console.warn('support_r2_s3_fallback', JSON.stringify({ operation: 'HEAD' }));
+      }
     }
     const response = await this.request(key, { method: 'HEAD' });
     const etag = response.headers.get('ETag');
@@ -79,13 +90,18 @@ export class R2Storage {
 
   async readHeader(key, { etag } = {}) {
     if (this.binding) {
-      return this.bindingRequest('GET_RANGE', async () => {
-        const onlyIf = etag ? new Headers({ 'If-Match': etag }) : undefined;
-        const object = await this.binding.get(key, { range: { offset: 0, length: 8192 }, ...(onlyIf ? { onlyIf } : {}) });
-        if (!object) throw new SupportError('invalidAttachment', 400);
-        if (!object.body) throw new SupportError('serverError', 503);
-        return new Uint8Array(await object.arrayBuffer());
-      });
+      try {
+        return await this.bindingRequest('GET_RANGE', async () => {
+          const onlyIf = etag ? new Headers({ 'If-Match': etag }) : undefined;
+          const object = await this.binding.get(key, { range: { offset: 0, length: 8192 }, ...(onlyIf ? { onlyIf } : {}) });
+          if (!object) throw new SupportError('invalidAttachment', 400);
+          if (!object.body) throw new SupportError('serverError', 503);
+          return new Uint8Array(await object.arrayBuffer());
+        });
+      } catch (error) {
+        if (!(error instanceof SupportError) || error.status < 500 || !this.canUseS3()) throw error;
+        console.warn('support_r2_s3_fallback', JSON.stringify({ operation: 'GET_RANGE' }));
+      }
     }
     const response = await this.request(key, { method: 'GET', headers: { Range: 'bytes=0-8191', ...(etag ? { 'If-Match': etag } : {}) } });
     // Never buffer a full object if an upstream disregards Range.
@@ -105,17 +121,22 @@ export class R2Storage {
 
   async copy(source, destination, { etag } = {}) {
     if (this.binding) {
-      return this.bindingRequest('COPY', async () => {
-        const onlyIf = etag ? new Headers({ 'If-Match': etag }) : undefined;
-        const object = await this.binding.get(source, { ...(onlyIf ? { onlyIf } : {}) });
-        if (!object) throw new SupportError('invalidAttachment', 400);
-        if (!object.body) throw new SupportError('serverError', 503);
-        const copied = await this.binding.put(destination, object.body, {
-          httpMetadata: object.httpMetadata,
-          customMetadata: object.customMetadata,
+      try {
+        return await this.bindingRequest('COPY', async () => {
+          const onlyIf = etag ? new Headers({ 'If-Match': etag }) : undefined;
+          const object = await this.binding.get(source, { ...(onlyIf ? { onlyIf } : {}) });
+          if (!object) throw new SupportError('invalidAttachment', 400);
+          if (!object.body) throw new SupportError('serverError', 503);
+          const copied = await this.binding.put(destination, object.body, {
+            httpMetadata: object.httpMetadata,
+            customMetadata: object.customMetadata,
+          });
+          if (!copied) throw new SupportError('serverError', 503);
         });
-        if (!copied) throw new SupportError('serverError', 503);
-      });
+      } catch (error) {
+        if (!(error instanceof SupportError) || error.status < 500 || !this.canUseS3()) throw error;
+        console.warn('support_r2_s3_fallback', JSON.stringify({ operation: 'COPY' }));
+      }
     }
     const sourcePath = `/${encodeURIComponent(this.bucket)}/${source.split('/').map(encodeURIComponent).join('/')}`;
     const response = await this.request(destination, { method: 'PUT', headers: { 'x-amz-copy-source': sourcePath, ...(etag ? { 'x-amz-copy-source-if-match': etag } : {}) } });
@@ -124,7 +145,13 @@ export class R2Storage {
   }
 
   async delete(key) {
-    if (this.binding) return this.bindingRequest('DELETE', () => this.binding.delete(key));
+    if (this.binding) {
+      try { return await this.bindingRequest('DELETE', () => this.binding.delete(key)); }
+      catch (error) {
+        if (!(error instanceof SupportError) || error.status < 500 || !this.canUseS3()) throw error;
+        console.warn('support_r2_s3_fallback', JSON.stringify({ operation: 'DELETE' }));
+      }
+    }
     await this.request(key, { method: 'DELETE' });
   }
 }
