@@ -40,7 +40,7 @@ export default {
   'ui.wantsReplyHint': 'You will receive a confirmation. Select this option to also receive status updates by email.',
   'ui.consent': 'I have read and agree to the',
   'ui.privacyPolicy': 'privacy policy',
-  'ui.privacyNotice': 'We use these details to handle your support request. Attachments are retained for 90 days. The ticket retention period must be defined before publication. To request deletion, contact support@duar.ch.',
+  'ui.privacyNotice': 'We use this data to handle your support request. Attachments and tickets are stored for 90 days. To request deletion, contact support@duar.ch.',
   'ui.submit': 'Send request',
   'ui.submitting': 'Sending your request…',
   'ui.signingUploads': 'Preparing attachments…',
