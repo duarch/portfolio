@@ -1,0 +1,53 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "duarch-support-api",
+  "main": "support/server/index.js",
+  "compatibility_date": "2026-10-20",
+  "workers_dev": true,
+  "preview_urls": false,
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "support-db",
+    "database_id": "e186d037-175d-4da6-9ed4-7baeb401167a",
+    "migrations_dir": "support/migrations"
+  }],
+  "vars": {
+    "SUPPORT_ORIGIN": "https://duar.ch",
+    "SUPPORT_MOCK_SERVICES": "false",
+    "R2_BUCKET": "duarch-support-attachments",
+    "SUPPORT_INBOX": "support@duar.ch",
+    "EMAIL_FROM_INTERNAL": "form@notify.duar.ch",
+    "EMAIL_FROM_USER": "support@notify.duar.ch",
+    "PRIVACY_POLICY_URL": "https://duar.ch/support/privacy/",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFfqhvoq-FlcpYvV"
+  },
+  "env": {
+    "local": {
+      "name": "duarch-support-local",
+      "workers_dev": true,
+      "assets": {
+        "directory": "./dist/support",
+        "binding": "ASSETS",
+        "run_worker_first": true
+      },
+      "d1_databases": [{
+        "binding": "DB",
+        "database_name": "support-db",
+        "database_id": "00000000-0000-0000-0000-000000000000",
+        "migrations_dir": "support/migrations"
+      }],
+      "vars": {
+        "SUPPORT_ORIGIN": "http://127.0.0.1:3000",
+        "R2_BUCKET": "duarch-support-attachments",
+        "SUPPORT_MOCK_SERVICES": "true",
+        "ADMIN_API_TOKEN": "local-development-token-never-use-in-production",
+        "UPLOAD_SIGNING_SECRET": "local-development-upload-secret-never-use-in-production",
+        "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+        "SUPPORT_INBOX": "support@duar.ch",
+        "EMAIL_FROM_INTERNAL": "form@notify.duar.ch",
+        "EMAIL_FROM_USER": "support@notify.duar.ch",
+        "PRIVACY_POLICY_URL": ""
+      }
+    }
+  }
+}

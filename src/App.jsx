@@ -365,6 +365,9 @@ export default function App() {
           >
             {t("footerDev")}
           </a>
+          <a href="/support/" aria-label={t("footerSupport")}>
+            {t("footerSupport")}
+          </a>
         </nav>
       </footer>
     </div>

@@ -18,6 +18,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VITE_SUPPORT_API_BASE: ${{ vars.VITE_SUPPORT_API_BASE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,7 +27,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
