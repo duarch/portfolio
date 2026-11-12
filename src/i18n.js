@@ -102,8 +102,8 @@ export const translations = {
     projects: [
       {
         name: "Persiga",
-        description: "Portuguese Wordle focused on community.",
-        link: "https://persiga.duar.ch",
+        description: "Game to discover 7-letter words.",
+        link: "https://persiga.duar.ch/en",
         image: "/assets/persiga.webp",
       },
       {
@@ -258,8 +258,8 @@ export const translations = {
     projects: [
       {
         name: "Persiga",
-        description: "Wordle em português com foco em comunidade.",
-        link: "https://persiga.duar.ch",
+        description: "Jogo para descobrir palavras de 7 letras.",
+        link: "https://persiga.duar.ch/pt",
         image: "/assets/persiga.webp",
       },
       {
@@ -414,8 +414,8 @@ export const translations = {
     projects: [
       {
         name: "Persiga",
-        description: "Wordle en portugués enfocado en comunidad.",
-        link: "https://persiga.duar.ch",
+        description: "Juego para descubrir palabras de 7 letras en portugués.",
+        link: "https://persiga.duar.ch/es",
         image: "/assets/persiga.webp",
       },
       {
